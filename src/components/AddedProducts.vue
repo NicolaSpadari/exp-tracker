@@ -1,25 +1,36 @@
 <template>
-	<p><u>Added products:</u></p>
+	<p class="font-heading text-4xl text-gray-900 mb-4">I tuoi prodotti</p>
 
-	<ul>
-		<li v-for="product in allProducts" :key="product.id" class="mb-10">
-			<img :src="product.picture" style="max-height: 100px" class="object-contain" />
-			<p>{{ product.name }}</p>
-			<p>Quantità: {{ product.quantity }}</p>
+	<div class="divide-y divide-gray-200 max-h-[68vh] overflow-x-hidden overflow-y-auto">
+		<div v-for="product in allProducts" :key="product.id" class="row py-2" :class="{ 'bg-red-50': remainingTime(product.date) < 0 }">
+			<div class="col-2 text-center">
+				<button type="button" @click="deleteDoc(product.id)" class="grid content-center w-full h-full">
+					<CheckIcon class="icon w-6 h-6 text-green-500 mx-auto" />
+				</button>
+			</div>
+			<div class="col-10">
+				<p class="text-lg font-heading">
+					{{ shortString(product.name, 25) }}
+					<span class="text-sm">({{ product.quantity }})</span>
+				</p>
 
-			<p v-if="remainingTime(product.date) < 0" class="text-red-600">SCADUTO</p>
-			<p v-else>{{ remainingTime(product.date) }} giorni rimanenti</p>
-
-			<button @click="deleteDoc(product.id)" class="border-2">elimina</button>
-			<button @click="removeQuantity(product)" v-if="product.quantity > 1" class="border-2 ml-2">- 1</button>
-		</li>
-	</ul>
+				<p v-if="remainingTime(product.date) < 0" class="text-red-600">
+					SCADUTO
+					<ExclamationIcon class="icon w-5 h-5 text-red-600" />
+				</p>
+				<p v-else>{{ remainingTime(product.date) }} giorni rimanenti</p>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script setup>
 	import { onMounted, ref } from "vue";
 	import firebase from "@/firebase.config";
 	import moment from "moment/min/moment-with-locales";
+	import { TrashIcon } from "@heroicons/vue/solid";
+	import { ExclamationIcon } from "@heroicons/vue/solid";
+	import { CheckIcon } from "@heroicons/vue/solid";
 
 	const allProducts = ref([]);
 	const db = firebase.firestore();
@@ -80,6 +91,14 @@
 
 	const remainingTime = (date) => {
 		return moment(date).diff(moment(new Date()), "days");
+	};
+
+	const shortString = (str, num) => {
+		if (str.length > num) {
+			return str.substring(0, num) + "...";
+		} else {
+			return str;
+		}
 	};
 
 	getAddedProducts();

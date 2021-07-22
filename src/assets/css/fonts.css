@@ -1,0 +1,51 @@
+/* Inter */
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    src: local(""), url("../fonts/Inter/inter-400.woff2") format("woff2");
+}
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    src: local(""), url("../fonts/Inter/inter-500.woff2") format("woff2");
+}
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 600;
+    src: local(""), url("../fonts/Inter/inter-600.woff2") format("woff2");
+}
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 700;
+    src: local(""), url("../fonts/Inter/inter-700.woff2") format("woff2");
+}
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 800;
+    src: local(""), url("../fonts/Inter/inter-800.woff2") format("woff2");
+}
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 900;
+    src: local(""), url("../fonts/Inter/inter-900.woff2") format("woff2");
+}
+
+/* Gilroy */
+@font-face {
+    font-family: "Gilroy";
+    font-style: normal;
+    font-weight: 400;
+    src: local(""), url("../fonts/Gilroy/gilroy-400.woff2") format("woff2");
+}
+@font-face {
+    font-family: "Gilroy";
+    font-style: normal;
+    font-weight: 800;
+    src: local(""), url("../fonts/Gilroy/gilroy-800.woff2") format("woff2");
+}

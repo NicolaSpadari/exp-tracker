@@ -1,23 +1,20 @@
 <template>
-	<AddedProducts />
+	<main class="font-text container mt-5">
+		<AddedProducts :key="productsVersion" />
+	</main>
+
+	<Panel :open="state" @pressed="state = false" @productsEdited="productsVersion++" />
+
+	<BottomBar @pressed="state = true" />
 
 	<ReloadPrompt />
 </template>
 
 <script setup>
-	import { onMounted } from "vue";
+	import { ref } from "vue";
 
-	onMounted(() => {
-		console.log("mounted");
-	});
-
-	if (import.meta.hot) {
-		import.meta.hot.on("module-update", () => {
-			console.clear();
-
-			console.log("updated");
-		});
-	}
+	const state = ref(false);
+	const productsVersion = ref(0);
 </script>
 
 <style lang="scss">
@@ -27,5 +24,8 @@
 	img {
 		-webkit-user-drag: none;
 		user-select: none;
+	}
+	.icon {
+		@apply align-middle;
 	}
 </style>
