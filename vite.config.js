@@ -7,6 +7,9 @@ import WindiCSS from "vite-plugin-windicss";
 import { resolve } from "path";
 
 export default defineConfig({
+    build: {
+        sourceMap: true,
+    },
     resolve: {
         alias: {
             "@": resolve(__dirname, "./src"),
@@ -22,6 +25,28 @@ export default defineConfig({
         HmrEvent(),
         VitePWA({
             base: "/",
+            srcDir: "src",
+            filesname: "sw.js",
+            strategies: "injectManifest",
+            manifest: {
+                name: "Food Exp Tracker",
+                short_name: "Exp Tracker",
+                theme_color: "#222226",
+                background_color: "#222226",
+                display: "standalone",
+                icons: [
+                    {
+                        src: "/android-chrome-192x192.png",
+                        sizes: "192x192",
+                        type: "image/png",
+                    },
+                    {
+                        src: "/android-chrome-512x512.png",
+                        sizes: "512x512",
+                        type: "image/png",
+                    },
+                ],
+            },
         }),
         ViteComponents({
             extensions: ["vue"],
