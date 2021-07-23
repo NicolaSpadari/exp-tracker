@@ -34,7 +34,7 @@
 		<template v-if="!props.expired && validProducts.length > 0">
 			<div v-for="product in validProducts" :key="product.id" class="bg-tidal-dark-highlight card-row space-x-2 rounded-md py-2 mb-2">
 				<div class="autofit-col autofit-col-gutters pr-0 pl-3">
-					<button type="button" @click="deleteDoc(product)" class="grid content-center w-full h-full">
+					<button type="button" @click="askDelete(product)" class="grid content-center w-full h-full">
 						<CheckCircleIcon class="icon w-6 h-6 text-tidal-cyan mx-auto" />
 					</button>
 				</div>
@@ -48,6 +48,43 @@
 			</div>
 		</template>
 	</template>
+
+	<transition name="fade">
+		<div v-if="modalVisible" class="fixed z-10 inset-0 overflow-y-auto z-15" role="dialog">
+			<div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+				<div class="fixed inset-0 bg-tidal-dark-200/65 transition-opacity"></div>
+				<span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+				<div class="inline-block align-bottom rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+					<div class="bg-tidal-dark-300 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+						<div class="sm:flex sm:items-start">
+							<div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-tidal-gold-highlight sm:mx-0 sm:h-10 sm:w-10">
+								<TrashIcon class="icon h-6 w-6 text-tidal-gold" />
+							</div>
+							<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+								<h3 class="text-lg leading-6 font-medium text-white">Eliminare {{ toDelete.name }}?</h3>
+								<div class="mt-2">
+									<p class="text-sm text-gray-300">Questa azione non può essere interrotta. Vuoi procedere?</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="bg-tidal-dark-200 px-4 py-3 justify-center sm:px-6 sm:flex sm:flex-row-reverse">
+						<button type="button" @click="deleteDoc(toDelete.id)" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-tidal-cyan-highlight text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm outline-none">Elimina</button>
+						<button
+							type="button"
+							@click="
+								toDelete = {};
+								modalVisible = false;
+							"
+							class="mt-3 w-full inline-flex justify-center rounded-md shadow-sm px-4 py-2 bg-tidal-dark-300 text-base font-medium text-white sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm outline-none"
+						>
+							Annulla
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</transition>
 </template>
 
 <script setup>
@@ -55,7 +92,7 @@
 	import firebase from "@/firebase.config";
 	import moment from "moment/min/moment-with-locales";
 	import { ExclamationIcon } from "@heroicons/vue/solid";
-	import { CheckCircleIcon, XCircleIcon } from "@heroicons/vue/outline";
+	import { CheckCircleIcon, XCircleIcon, TrashIcon } from "@heroicons/vue/outline";
 
 	const props = defineProps({
 		expired: Boolean,
@@ -63,6 +100,8 @@
 	});
 
 	const allProducts = ref([]);
+	const modalVisible = ref(false);
+	const toDelete = ref({});
 	const db = firebase.firestore();
 
 	onMounted(() => {
@@ -102,7 +141,7 @@
 
 	const removeQuantity = (obj) => {
 		if (obj.quantity - 1 == 0) {
-			deleteDoc(obj);
+			askDelete(obj);
 		} else {
 			db.collection("products")
 				.doc(obj.id)
@@ -119,19 +158,24 @@
 		}
 	};
 
-	const deleteDoc = (obj) => {
-		if (confirm("Eliminare " + obj.name + "?")) {
-			db.collection("products")
-				.doc(obj.id)
-				.delete()
-				.then(() => {
-					console.log("product deleted successfully");
-					getProducts();
-				})
-				.catch((err) => {
-					console.error("error deleting product: ", err);
-				});
-		}
+	const askDelete = (obj) => {
+		toDelete.value = obj;
+		modalVisible.value = true;
+	};
+
+	const deleteDoc = (id) => {
+		db.collection("products")
+			.doc(id)
+			.delete()
+			.then(() => {
+				console.log("product deleted successfully");
+				toDelete.value = {};
+				modalVisible.value = false;
+				getProducts();
+			})
+			.catch((err) => {
+				console.error("error deleting product: ", err);
+			});
 	};
 
 	const remainingTime = (date) => {
