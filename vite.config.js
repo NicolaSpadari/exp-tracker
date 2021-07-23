@@ -49,8 +49,8 @@ export default defineConfig({
                 ],
             },
             workbox: {
-                swSrc: "src/sw.js",
-                swDest: "service-worker.js",
+                swSrc: "/src/sw.js",
+                swDest: "/service-worker.js",
                 exclude: [/\.map$/],
             },
         }),
