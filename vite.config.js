@@ -24,8 +24,6 @@ export default defineConfig({
         WindiCSS(),
         HmrEvent(),
         VitePWA({
-            filename: "sw.js",
-            base: "/",
             strategies: "injectManifest",
             includeAssets: ["/favicon.ico"],
             manifest: {
