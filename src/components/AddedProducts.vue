@@ -2,40 +2,40 @@
 	<template v-if="props.expired">
 		<div class="card-row space-x-2 mb-3">
 			<div class="autofit-col autofit-col-gutters">
-				<p class="text-dark-900 font-heading">Prodotti scaduti ({{ expiredProducts.length }})</p>
+				<p class="text-white font-heading">Prodotti scaduti ({{ expiredProducts.length }})</p>
 			</div>
 		</div>
-		<div v-for="product in expiredProducts" :key="product.id" class="card-row space-x-2 mb-3">
-			<div class="autofit-col autofit-col-gutters">
+		<div v-for="product in expiredProducts" :key="product.id" class="bg-tidal-dark-highlight card-row space-x-2 rounded-md py-2 mb-2">
+			<div class="autofit-col autofit-col-gutters pr-0 pl-3">
 				<button type="button" @click="removeQuantity(product)" class="grid content-center w-full h-full">
-					<XCircleIcon class="icon w-6 h-6 text-gray-600 mx-auto" />
+					<XCircleIcon class="icon w-6 h-6 text-tidal-gold mx-auto" />
 				</button>
 			</div>
 			<div class="autofit-col autofit-col-gutters autofit-col-expand">
-				<p class="font-heading">
+				<p class="text-white font-heading">
 					{{ shortString(product.name, 25) }}
 					({{ product.quantity }})
 				</p>
-				<p class="font-text uppercase text-sm text-gray-600">
+				<p class="text-white font-text uppercase text-sm">
 					Scaduto
-					<ExclamationIcon class="icon w-4 h-4 text-red-500" />
+					<ExclamationIcon class="icon w-4 h-4 text-tidal-gold" />
 				</p>
 			</div>
 		</div>
 	</template>
 	<template v-else>
-		<div v-for="product in validProducts" :key="product.id" class="card-row space-x-2 mb-3">
-			<div class="autofit-col autofit-col-gutters">
+		<div v-for="product in validProducts" :key="product.id" class="bg-tidal-dark-highlight card-row space-x-2 rounded-md py-2 mb-2">
+			<div class="autofit-col autofit-col-gutters pr-0 pl-3">
 				<button type="button" @click="deleteDoc(product.id)" class="grid content-center w-full h-full">
-					<CheckCircleIcon class="icon w-6 h-6 text-gray-600 mx-auto" />
+					<CheckCircleIcon class="icon w-6 h-6 text-tidal-cyan mx-auto" />
 				</button>
 			</div>
 			<div class="autofit-col autofit-col-gutters autofit-col-expand">
-				<p class="font-heading">
+				<p class="font-heading text-white">
 					{{ shortString(product.name, 25) }}
 					({{ product.quantity }})
 				</p>
-				<p class="font-text">{{ remainingTime(product.date) }} giorni rimanenti</p>
+				<p class="text-white font-text">{{ remainingTime(product.date) }} giorni rimanenti</p>
 			</div>
 		</div>
 	</template>

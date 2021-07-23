@@ -25,6 +25,16 @@ let windiConfig = {
                 heading: ["Gilroy", "sans-serif"],
                 text: ["Inter", "sans-serif"],
             },
+            colors: {
+                "tidal-cyan": "#57FFFF",
+                "tidal-cyan-highlight": "#274646",
+                "tidal-gold": "#EFB573",
+                "tidal-gold-highlight": "#494038",
+                "tidal-dark-highlight": "#2E2E31",
+                "tidal-dark-active": "#8C8C8F",
+                "tidal-dark-200": "#222226",
+                "tidal-dark-300": "#17171A",
+            },
         },
         zIndex: {
             5: 5,

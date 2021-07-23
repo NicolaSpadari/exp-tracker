@@ -1,18 +1,20 @@
 <template>
-	<main class="font-text divide-y divide-gray-200 mt-5">
-		<div class="container">
-			<div class="card-row space-x-2 mb-4">
-				<div class="autofit-col autofit-col-gutters">
-					<MinusSmIcon class="icon w-6 h-6 text-white opacity-0" />
+	<main class="font-text mt-5">
+		<div class="overflow-y-auto max-h-[75vh]">
+			<div class="container">
+				<div class="card-row space-x-2 mb-4">
+					<div class="autofit-col autofit-col-gutters">
+						<div class="w-6 h-6"></div>
+					</div>
+					<div class="autofit-col autofit-col-gutters autofit-col-expand">
+						<p class="font-heading text-3xl text-white">I tuoi prodotti</p>
+					</div>
 				</div>
-				<div class="autofit-col autofit-col-gutters autofit-col-expand">
-					<p class="font-heading text-3xl text-gray-900">I tuoi prodotti</p>
-				</div>
+				<AddedProducts :key="productsVersion" :expired="false" />
 			</div>
-			<AddedProducts :key="productsVersion" :expired="false" />
-		</div>
-		<div class="container pt-3">
-			<AddedProducts :key="productsVersion" :expired="true" />
+			<div class="container pt-3">
+				<AddedProducts :key="productsVersion" :expired="true" />
+			</div>
 		</div>
 	</main>
 
@@ -25,7 +27,6 @@
 
 <script setup>
 	import { ref } from "vue";
-	import { MinusSmIcon } from "@heroicons/vue/solid";
 
 	const openState = ref(false);
 	const productsVersion = ref(0);
