@@ -1,5 +1,5 @@
 <template>
-	<main class="font-text mt-5">
+	<main class="font-text pt-5">
 		<div class="overflow-y-auto max-h-[75vh]">
 			<div class="container">
 				<div class="card-row space-x-2 mb-4">
