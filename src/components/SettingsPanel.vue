@@ -27,7 +27,7 @@
 	<transition name="fade">
 		<div v-if="modalVisible" class="fixed z-10 inset-0 overflow-y-auto z-15" role="dialog">
 			<div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-				<div class="fixed inset-0 bg-tidal-dark-200/65 transition-opacity"></div>
+				<div @click="modalVisible = false" class="fixed inset-0 bg-tidal-dark-200/90 transition-opacity"></div>
 				<span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
 				<div class="inline-block align-bottom rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
 					<div class="bg-tidal-dark-300 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
@@ -50,7 +50,7 @@
 								deleteAll();
 								modalVisible = false;
 							"
-							class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-tidal-cyan-highlight text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm outline-none"
+							class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-tidal-cyan-highlight text-base font-medium text-tidal-cyan sm:ml-3 sm:w-auto sm:text-sm outline-none"
 						>
 							Elimina
 						</button>

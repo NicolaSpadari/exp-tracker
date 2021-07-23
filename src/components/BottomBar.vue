@@ -1,27 +1,23 @@
 <template>
-	<nav class="navbar fixed-bottom bg-tidal-dark-200 shadow-top z-10">
-		<div class="container">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item">
-					<button type="button" @click="emit('mainMenuOpen')" class="nav-link outline-none">
-						<MenuIcon class="transition-colors duration-300 icon w-5 h-5 text-white hover:text-tidal-dark-active" />
-					</button>
-				</li>
-			</ul>
-			<ul class="navbar-nav ml-auto">
-				<li class="nav-item">
-					<button type="button" @click="emit('secondaryMenuOpen')" class="nav-link outline-none">
-						<DotsVerticalIcon class="transition-colors duration-300 icon w-5 h-5 text-white hover:text-tidal-dark-active" />
-					</button>
-				</li>
-			</ul>
-		</div>
-	</nav>
-
-	<div class="absolute flex pointer-events-none w-full bottom-9 z-10">
-		<button type="button" @click="emit('openPanel')" class="bg-tidal-cyan-highlight w-12 h-12 rounded-full pointer-events-auto mx-auto shadow-lg outline-none">
-			<PlusIcon class="icon w-6 h-6 dark:text-gray-50 text-tidal-cyan mx-auto" />
-		</button>
+	<div class="fixed-bottom z-10">
+		<nav class="navbar p-0">
+			<div class="bg-tidal-dark-200 rounded-tr-[30px] w-[42%] flex justify-start">
+				<button type="button" @click="emit('mainMenuOpen')" class="btn btn-monospaced nav-item nav-link outline-none mt-2 ml-1">
+					<MenuIcon class="transition-colors duration-300 icon w-5 h-5 text-white hover:text-tidal-dark-active" />
+				</button>
+			</div>
+			<div class="curved bg-tidal-dark-200 w-[16%] h-[25px] mt-auto">
+				<button type="button" @click="emit('openPanel')" class="absolute inset-x-0 bottom-1 bg-tidal-cyan-highlight w-13 h-13 rounded-full pointer-events-auto mx-auto shadow-lg outline-none">
+					<PlusIcon class="icon w-6 h-6 dark:text-gray-50 text-tidal-cyan mx-auto" />
+				</button>
+			</div>
+			<div class="bg-tidal-dark-200 rounded-tl-[30px] w-[42%] flex justify-end">
+				<button type="button" @click="emit('secondaryMenuOpen')" class="btn btn-monospaced nav-item nav-link outline-none mt-2 mr-1">
+					<DotsVerticalIcon class="transition-colors duration-300 icon w-5 h-5 text-white hover:text-tidal-dark-active" />
+				</button>
+			</div>
+		</nav>
+		<div class="bg-tidal-dark-200 h-[10px]"></div>
 	</div>
 </template>
 
@@ -33,7 +29,8 @@
 </script>
 
 <style scoped>
-	.shadow-top {
-		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.75), 0 6px 6px rgba(0, 0, 0, 1);
+	.curved {
+		box-shadow: 0px 30px 0px 25px rgb(34, 34, 38);
+		@apply bg-transparent rounded-bl-full rounded-br-full;
 	}
 </style>

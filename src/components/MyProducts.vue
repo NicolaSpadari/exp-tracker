@@ -12,7 +12,7 @@
 			</div>
 			<div v-for="product in expiredProducts" :key="product.id" class="bg-tidal-dark-highlight card-row space-x-2 rounded-md py-2 mb-2">
 				<div class="autofit-col autofit-col-gutters pr-0 pl-3">
-					<button type="button" @click="removeQuantity(product)" class="grid content-center w-full h-full">
+					<button type="button" @click="removeQuantity(product)" class="grid content-center w-full h-full outline-none">
 						<XCircleIcon class="icon w-6 h-6 text-tidal-gold mx-auto" />
 					</button>
 				</div>
@@ -34,7 +34,7 @@
 		<template v-if="!props.expired && validProducts.length > 0">
 			<div v-for="product in validProducts" :key="product.id" class="bg-tidal-dark-highlight card-row space-x-2 rounded-md py-2 mb-2">
 				<div class="autofit-col autofit-col-gutters pr-0 pl-3">
-					<button type="button" @click="askDelete(product)" class="grid content-center w-full h-full">
+					<button type="button" @click="askDelete(product)" class="grid content-center w-full h-full outline-none">
 						<CheckCircleIcon class="icon w-6 h-6 text-tidal-cyan mx-auto" />
 					</button>
 				</div>
@@ -52,7 +52,7 @@
 	<transition name="fade">
 		<div v-if="modalVisible" class="fixed z-10 inset-0 overflow-y-auto z-15" role="dialog">
 			<div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-				<div class="fixed inset-0 bg-tidal-dark-200/65 transition-opacity"></div>
+				<div @click="modalVisible = false" class="fixed inset-0 bg-tidal-dark-200/90 transition-opacity"></div>
 				<span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
 				<div class="inline-block align-bottom rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
 					<div class="bg-tidal-dark-300 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
@@ -69,7 +69,7 @@
 						</div>
 					</div>
 					<div class="bg-tidal-dark-200 px-4 py-3 justify-center sm:px-6 sm:flex sm:flex-row-reverse">
-						<button type="button" @click="deleteDoc(toDelete.id)" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-tidal-cyan-highlight text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm outline-none">Elimina</button>
+						<button type="button" @click="deleteDoc(toDelete.id)" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-tidal-cyan-highlight text-base font-medium text-tidal-cyan sm:ml-3 sm:w-auto sm:text-sm outline-none">Elimina</button>
 						<button
 							type="button"
 							@click="
