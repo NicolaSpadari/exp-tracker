@@ -1,36 +1,58 @@
 <template>
-	<p class="font-heading text-4xl text-gray-900 mb-4">I tuoi prodotti</p>
-
-	<div class="divide-y divide-gray-200 max-h-[68vh] overflow-x-hidden overflow-y-auto">
-		<div v-for="product in allProducts" :key="product.id" class="row py-2" :class="{ 'bg-red-50': remainingTime(product.date) < 0 }">
-			<div class="col-2 text-center">
-				<button type="button" @click="deleteDoc(product.id)" class="grid content-center w-full h-full">
-					<CheckIcon class="icon w-6 h-6 text-green-500 mx-auto" />
-				</button>
-			</div>
-			<div class="col-10">
-				<p class="text-lg font-heading">
-					{{ shortString(product.name, 25) }}
-					<span class="text-sm">({{ product.quantity }})</span>
-				</p>
-
-				<p v-if="remainingTime(product.date) < 0" class="text-red-600">
-					SCADUTO
-					<ExclamationIcon class="icon w-5 h-5 text-red-600" />
-				</p>
-				<p v-else>{{ remainingTime(product.date) }} giorni rimanenti</p>
+	<template v-if="props.expired">
+		<div class="card-row space-x-2 mb-3">
+			<div class="autofit-col autofit-col-gutters">
+				<p class="text-dark-900 font-heading">Prodotti scaduti ({{ expiredProducts.length }})</p>
 			</div>
 		</div>
-	</div>
+		<div v-for="product in expiredProducts" :key="product.id" class="card-row space-x-2 mb-3">
+			<div class="autofit-col autofit-col-gutters">
+				<button type="button" @click="removeQuantity(product)" class="grid content-center w-full h-full">
+					<XCircleIcon class="icon w-6 h-6 text-gray-600 mx-auto" />
+				</button>
+			</div>
+			<div class="autofit-col autofit-col-gutters autofit-col-expand">
+				<p class="font-heading">
+					{{ shortString(product.name, 25) }}
+					({{ product.quantity }})
+				</p>
+				<p class="font-text uppercase text-sm text-gray-600">
+					Scaduto
+					<ExclamationIcon class="icon w-4 h-4 text-red-500" />
+				</p>
+			</div>
+		</div>
+	</template>
+	<template v-else>
+		<div v-for="product in validProducts" :key="product.id" class="card-row space-x-2 mb-3">
+			<div class="autofit-col autofit-col-gutters">
+				<button type="button" @click="deleteDoc(product.id)" class="grid content-center w-full h-full">
+					<CheckCircleIcon class="icon w-6 h-6 text-gray-600 mx-auto" />
+				</button>
+			</div>
+			<div class="autofit-col autofit-col-gutters autofit-col-expand">
+				<p class="font-heading">
+					{{ shortString(product.name, 25) }}
+					({{ product.quantity }})
+				</p>
+				<p class="font-text">{{ remainingTime(product.date) }} giorni rimanenti</p>
+			</div>
+		</div>
+	</template>
 </template>
 
 <script setup>
-	import { onMounted, ref } from "vue";
+	import { onMounted, computed, ref } from "vue";
 	import firebase from "@/firebase.config";
 	import moment from "moment/min/moment-with-locales";
-	import { TrashIcon } from "@heroicons/vue/solid";
 	import { ExclamationIcon } from "@heroicons/vue/solid";
-	import { CheckIcon } from "@heroicons/vue/solid";
+	import { CheckCircleIcon } from "@heroicons/vue/outline";
+	import { XCircleIcon } from "@heroicons/vue/outline";
+	import { defineProps } from "vue";
+
+	const props = defineProps({
+		expired: Boolean,
+	});
 
 	const allProducts = ref([]);
 	const db = firebase.firestore();
@@ -102,4 +124,16 @@
 	};
 
 	getAddedProducts();
+
+	const expiredProducts = computed(() => {
+		return allProducts.value.filter((prod) => {
+			return remainingTime(prod.date) < 1;
+		});
+	});
+
+	const validProducts = computed(() => {
+		return allProducts.value.filter((prod) => {
+			return remainingTime(prod.date) >= 1;
+		});
+	});
 </script>

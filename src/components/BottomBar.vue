@@ -1,19 +1,25 @@
 <template>
-	<nav class="fixed bottom-0 bg-white dark:bg-gray-800 w-full shadow-top">
-		<div class="container py-3">
-			<div class="row justify-between">
-				<div class="col-auto">
-					<MenuIcon class="icon w-6 h-6 text-gray-900 dark:text-gray-50" />
-				</div>
-				<div class="col-auto">
-					<DotsVerticalIcon class="icon w-6 h-6 text-gray-900 dark:text-gray-50" />
-				</div>
-			</div>
+	<nav class="navbar fixed-bottom navbar-expand-sm shadow-top z-10">
+		<div class="container">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item">
+					<button type="button" @click="emit('mainMenuOpen')" class="nav-link">
+						<MenuIcon class="icon w-5 h-5 text-gray-600 dark:text-gray-50" />
+					</button>
+				</li>
+			</ul>
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item">
+					<button type="button" @click="emit('secondaryMenuOpen')" class="nav-link">
+						<DotsVerticalIcon class="icon w-5 h-5 text-gray-600 dark:text-gray-50" />
+					</button>
+				</li>
+			</ul>
 		</div>
 	</nav>
 
-	<div class="fixed flex pointer-events-none w-full bottom-8">
-		<button type="button" @click="emit('pressed')" class="dark:bg-gray-800 bg-white w-14 h-14 rounded-full pointer-events-auto mx-auto border">
+	<div class="absolute flex pointer-events-none w-full bottom-9 z-10">
+		<button type="button" @click="emit('addProduct')" class="dark:bg-gray-800 bg-white w-12 h-12 rounded-full pointer-events-auto mx-auto border shadow-lg">
 			<PlusIcon class="icon w-6 h-6 dark:text-gray-50 text-gray-900 mx-auto" />
 		</button>
 	</div>
@@ -25,7 +31,7 @@
 	import { DotsVerticalIcon } from "@heroicons/vue/solid";
 	import { defineEmits } from "vue";
 
-	const emit = defineEmits(["pressed"]);
+	const emit = defineEmits(["mainMenuOpen, secondaryMenuOpen, addProduct"]);
 </script>
 
 <style scoped>

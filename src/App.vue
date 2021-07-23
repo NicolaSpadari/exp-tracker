@@ -1,20 +1,38 @@
 <template>
-	<main class="font-text container mt-5">
-		<AddedProducts :key="productsVersion" />
+	<main class="font-text divide-y divide-gray-200 mt-5">
+		<div class="container">
+			<div class="card-row space-x-2 mb-4">
+				<div class="autofit-col autofit-col-gutters">
+					<MinusSmIcon class="icon w-6 h-6 text-white opacity-0" />
+				</div>
+				<div class="autofit-col autofit-col-gutters autofit-col-expand">
+					<p class="font-heading text-3xl text-gray-900">I tuoi prodotti</p>
+				</div>
+			</div>
+			<AddedProducts :key="productsVersion" :expired="false" />
+		</div>
+		<div class="container pt-3">
+			<AddedProducts :key="productsVersion" :expired="true" />
+		</div>
 	</main>
 
-	<Panel :open="state" @pressed="state = false" @productsEdited="productsVersion++" />
+	<Panel :open="openState" @close="openState = false" @productsEdited="productsVersion++" />
 
-	<BottomBar @pressed="state = true" />
+	<BottomBar @addProduct="openState = true" @mainMenuOpen="log('main')" @secondaryMenuOpen="log('secondary')" />
 
 	<ReloadPrompt />
 </template>
 
 <script setup>
 	import { ref } from "vue";
+	import { MinusSmIcon } from "@heroicons/vue/solid";
 
-	const state = ref(false);
+	const openState = ref(false);
 	const productsVersion = ref(0);
+
+	const log = (msg) => {
+		console.log(msg);
+	};
 </script>
 
 <style lang="scss">
