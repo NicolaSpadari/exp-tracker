@@ -9,6 +9,12 @@ import { resolve } from "path";
 export default defineConfig({
     build: {
         sourceMap: true,
+        terserOptions: {
+            compress: {
+                drop_console: true,
+                drop_debug: true,
+            },
+        },
     },
     resolve: {
         alias: {
@@ -29,6 +35,7 @@ export default defineConfig({
             base: "/",
             strategies: "injectManifest",
             includeAssets: ["/favicon.ico"],
+            registerType: "prompt",
             manifest: {
                 name: "Food Exp Tracker",
                 short_name: "Exp Tracker",
@@ -36,6 +43,7 @@ export default defineConfig({
                 theme_color: "#222226",
                 background_color: "#222226",
                 display: "standalone",
+                start_url: "/",
                 icons: [
                     {
                         src: "/android-chrome-192x192.png",

@@ -30,12 +30,7 @@
 </template>
 
 <script setup>
-	import { onBeforeMount, ref } from "vue";
-	import Worker from "./my-worker?worker";
-
-	const pong = ref(null);
-	const mode = ref(null);
-	const worker = new Worker();
+	import { ref } from "vue";
 
 	const openState = ref(false);
 	const listState = ref(false);
@@ -46,20 +41,6 @@
 	const log = (msg) => {
 		console.log(msg);
 	};
-
-	const runWorker = async () => {
-		worker.postMessage("ping");
-	};
-	const resetMessage = async () => {
-		worker.postMessage("clear");
-	};
-	const messageFromWorker = async ({ data: { msg, mode: useMode } }) => {
-		pong.value = msg;
-		mode.value = useMode;
-	};
-	onBeforeMount(() => {
-		worker.addEventListener("message", messageFromWorker);
-	});
 </script>
 
 <style lang="scss">
