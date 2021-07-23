@@ -7,7 +7,7 @@
 				</button>
 			</div>
 			<div class="curved bg-tidal-dark-200 w-15 h-[25px] mt-auto">
-				<button type="button" @click="emit('openPanel')" class="absolute inset-x-0 bottom-1 bg-tidal-cyan-highlight w-13 h-13 rounded-full pointer-events-auto mx-auto shadow-lg outline-none">
+				<button type="button" @click="emit('openPanel')" class="btn absolute inset-x-0 bottom-1 bg-tidal-cyan-highlight w-13 h-13 rounded-full pointer-events-auto mx-auto shadow-lg outline-none p-0">
 					<PlusIcon class="icon w-6 h-6 dark:text-gray-50 text-tidal-cyan mx-auto" />
 				</button>
 			</div>

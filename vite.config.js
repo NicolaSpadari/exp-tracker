@@ -21,7 +21,6 @@ export default defineConfig({
         WindiCSS(),
         HmrEvent(),
         VitePWA({
-            registerType: "autoUpdate",
             base: "/",
         }),
         ViteComponents({
