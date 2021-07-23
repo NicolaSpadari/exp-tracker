@@ -11,7 +11,7 @@
 
 					<div class="col-span-6 sm:col-span-3">
 						<label for="product-date" class="block text-sm font-medium text-gray-900">Data di scadenza</label>
-						<input type="date" v-model="product.date" id="product-date" class="mt-1 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" />
+						<input type="date" v-model="product.date" :min="moment(new Date()).format('YYYY-MM-DD')" id="product-date" class="mt-1 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" />
 					</div>
 				</div>
 			</div>
