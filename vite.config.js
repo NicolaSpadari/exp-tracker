@@ -21,7 +21,7 @@ export default defineConfig({
         WindiCSS(),
         HmrEvent(),
         VitePWA({
-            srcDir: "src",
+            registerType: "autoUpdate",
             manifest: {
                 name: "Food Exp Tracker",
                 short_name: "Exp Tracker",

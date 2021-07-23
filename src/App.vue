@@ -26,11 +26,18 @@
 
 	<BottomBar @openPanel="openState = true" @mainMenuOpen="log('main')" @secondaryMenuOpen="settingsState = true" />
 
-	<ReloadPrompt />
+	<!-- <ReloadPrompt /> -->
 </template>
 
 <script setup>
-	import { ref } from "vue";
+	import { onMounted, ref } from "vue";
+
+	if (import.meta.env.MODE === "production" && typeof window !== "undefined") {
+		onMounted(async () => {
+			const { registerSW } = await import("virtual:pwa-register");
+			registerSW({ immediate: true });
+		});
+	}
 
 	const openState = ref(false);
 	const listState = ref(false);

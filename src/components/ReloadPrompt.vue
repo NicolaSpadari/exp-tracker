@@ -50,6 +50,7 @@
 </template>
 
 <script setup>
+	import { onMounted } from "vue";
 	import { useRegisterSW } from "virtual:pwa-register/vue";
 	import { RefreshIcon, XIcon } from "@heroicons/vue/outline";
 
@@ -58,4 +59,11 @@
 		offlineReady.value = false;
 		needRefresh.value = false;
 	};
+
+	if (import.meta.env.MODE === "production" && typeof window !== "undefined") {
+		onMounted(async () => {
+			const { registerSW } = await import("virtual:pwa-register");
+			registerSW({ immediate: true });
+		});
+	}
 </script>
