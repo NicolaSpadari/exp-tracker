@@ -18,7 +18,7 @@
 
 	<Panel :open="openState" @close="openState = false" @productsEdited="productsVersion++" />
 
-	<BottomBar @addProduct="openState = true" @mainMenuOpen="log('main')" @secondaryMenuOpen="log('secondary')" />
+	<BottomBar @openPanel="openState = true" @mainMenuOpen="log('main')" @secondaryMenuOpen="log('secondary')" />
 
 	<ReloadPrompt />
 </template>

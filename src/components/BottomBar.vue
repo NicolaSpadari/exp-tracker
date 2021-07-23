@@ -19,7 +19,7 @@
 	</nav>
 
 	<div class="absolute flex pointer-events-none w-full bottom-9 z-10">
-		<button type="button" @click="emit('addProduct')" class="dark:bg-gray-800 bg-white w-12 h-12 rounded-full pointer-events-auto mx-auto border shadow-lg">
+		<button type="button" @click="emit('openPanel')" class="dark:bg-gray-800 bg-white w-12 h-12 rounded-full pointer-events-auto mx-auto border shadow-lg">
 			<PlusIcon class="icon w-6 h-6 dark:text-gray-50 text-gray-900 mx-auto" />
 		</button>
 	</div>
@@ -31,7 +31,7 @@
 	import { DotsVerticalIcon } from "@heroicons/vue/solid";
 	import { defineEmits } from "vue";
 
-	const emit = defineEmits(["mainMenuOpen, secondaryMenuOpen, addProduct"]);
+	const emit = defineEmits(["mainMenuOpen", "secondaryMenuOpen", "openPanel"]);
 </script>
 
 <style scoped>
