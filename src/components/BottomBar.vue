@@ -1,17 +1,17 @@
 <template>
 	<div class="fixed-bottom z-10">
 		<nav class="navbar p-0">
-			<div class="bg-tidal-dark-200 rounded-tr-[30px] w-[42%] flex justify-start">
+			<div class="bottom-tab bg-tidal-dark-200 rounded-tr-[30px] flex justify-start">
 				<button type="button" @click="emit('mainMenuOpen')" class="btn btn-monospaced nav-item nav-link outline-none mt-2 ml-1">
 					<MenuIcon class="transition-colors duration-300 icon w-5 h-5 text-white hover:text-tidal-dark-active" />
 				</button>
 			</div>
-			<div class="curved bg-tidal-dark-200 w-[16%] h-[25px] mt-auto">
+			<div class="curved bg-tidal-dark-200 w-15 h-[25px] mt-auto">
 				<button type="button" @click="emit('openPanel')" class="absolute inset-x-0 bottom-1 bg-tidal-cyan-highlight w-13 h-13 rounded-full pointer-events-auto mx-auto shadow-lg outline-none">
 					<PlusIcon class="icon w-6 h-6 dark:text-gray-50 text-tidal-cyan mx-auto" />
 				</button>
 			</div>
-			<div class="bg-tidal-dark-200 rounded-tl-[30px] w-[42%] flex justify-end">
+			<div class="bottom-tab bg-tidal-dark-200 rounded-tl-[30px] flex justify-end">
 				<button type="button" @click="emit('secondaryMenuOpen')" class="btn btn-monospaced nav-item nav-link outline-none mt-2 mr-1">
 					<DotsVerticalIcon class="transition-colors duration-300 icon w-5 h-5 text-white hover:text-tidal-dark-active" />
 				</button>
@@ -32,5 +32,8 @@
 	.curved {
 		box-shadow: 0px 30px 0px 25px rgb(34, 34, 38);
 		@apply bg-transparent rounded-bl-full rounded-br-full;
+	}
+	.bottom-tab {
+		width: calc(50% - 1.875rem);
 	}
 </style>
