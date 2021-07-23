@@ -7,15 +7,6 @@ import WindiCSS from "vite-plugin-windicss";
 import { resolve } from "path";
 
 export default defineConfig({
-    build: {
-        sourceMap: true,
-        terserOptions: {
-            compress: {
-                drop_console: true,
-                drop_debug: true,
-            },
-        },
-    },
     resolve: {
         alias: {
             "@": resolve(__dirname, "./src"),
