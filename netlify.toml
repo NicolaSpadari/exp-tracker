@@ -1,0 +1,7 @@
+[build.environment]
+    NODE_VERSION = "16.2.0"
+
+[[headers]]
+    for = "/site.webmanifest"
+    [headers.values]
+        Content-Type = "application/manifest+json"
