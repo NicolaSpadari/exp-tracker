@@ -48,6 +48,11 @@ export default defineConfig({
                     },
                 ],
             },
+            workbox: {
+                swSrc: "src/sw.js",
+                swDest: "service-worker.js",
+                exclude: [/\.map$/],
+            },
         }),
         ViteComponents({
             extensions: ["vue"],
