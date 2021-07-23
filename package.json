@@ -8,6 +8,7 @@
     },
     "dependencies": {
         "@heroicons/vue": "^1.0.2",
+        "@rollup/plugin-replace": "^3.0.0",
         "firebase": "^8.7.1",
         "moment": "^2.29.1",
         "vite-plugin-windicss": "^1.0.3",

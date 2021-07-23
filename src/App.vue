@@ -10,17 +10,21 @@
 						<p class="font-heading text-3xl text-white">I tuoi prodotti</p>
 					</div>
 				</div>
-				<AddedProducts :key="productsVersion" :expired="false" />
+				<MyProducts :key="productsVersion" :showImage="true" :expired="false" />
 			</div>
 			<div class="container pt-3">
-				<AddedProducts :key="productsVersion" :expired="true" />
+				<MyProducts :key="productsVersion" :showImage="false" :expired="true" />
 			</div>
 		</div>
 	</main>
 
-	<Panel :open="openState" @close="openState = false" @productsEdited="productsVersion++" />
+	<MainPanel :open="openState" @close="openState = false" @productsEdited="productsVersion++" />
 
-	<BottomBar @openPanel="openState = true" @mainMenuOpen="log('main')" @secondaryMenuOpen="log('secondary')" />
+	<ListPanel :open="listState" @close="listState = false" />
+
+	<SettingsPanel :open="settingsState" @close="settingsState = false" />
+
+	<BottomBar @openPanel="openState = true" @mainMenuOpen="log('main')" @secondaryMenuOpen="settingsState = true" />
 
 	<ReloadPrompt />
 </template>
@@ -29,6 +33,9 @@
 	import { ref } from "vue";
 
 	const openState = ref(false);
+	const listState = ref(false);
+	const settingsState = ref(false);
+
 	const productsVersion = ref(0);
 
 	const log = (msg) => {

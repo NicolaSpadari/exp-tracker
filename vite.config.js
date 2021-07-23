@@ -5,6 +5,7 @@ import { VitePWA } from "vite-plugin-pwa";
 import HmrEvent from "./src/plugins/vite-plugin-hmr";
 import WindiCSS from "vite-plugin-windicss";
 import { resolve } from "path";
+import replace from "@rollup/plugin-replace";
 
 export default defineConfig({
     resolve: {
@@ -22,11 +23,15 @@ export default defineConfig({
         HmrEvent(),
         VitePWA({
             registerType: "autoUpdate",
+            base: "/",
         }),
         ViteComponents({
             extensions: ["vue"],
             dirs: ["src/components"],
             deep: false,
+        }),
+        replace({
+            __DATE__: new Date().toISOString(),
         }),
     ],
 });

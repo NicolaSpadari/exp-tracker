@@ -19,17 +19,15 @@
 	</nav>
 
 	<div class="absolute flex pointer-events-none w-full bottom-9 z-10">
-		<button type="button" @click="emit('openPanel')" class="bg-tidal-cyan-highlight w-12 h-12 rounded-full pointer-events-auto mx-auto shadow-lg">
+		<button type="button" @click="emit('openPanel')" class="bg-tidal-cyan-highlight w-12 h-12 rounded-full pointer-events-auto mx-auto shadow-lg outline-none">
 			<PlusIcon class="icon w-6 h-6 dark:text-gray-50 text-tidal-cyan mx-auto" />
 		</button>
 	</div>
 </template>
 
 <script setup>
-	import { MenuIcon } from "@heroicons/vue/solid";
-	import { PlusIcon } from "@heroicons/vue/solid";
-	import { DotsVerticalIcon } from "@heroicons/vue/solid";
 	import { defineEmits } from "vue";
+	import { MenuIcon, PlusIcon, DotsVerticalIcon } from "@heroicons/vue/solid";
 
 	const emit = defineEmits(["mainMenuOpen", "secondaryMenuOpen", "openPanel"]);
 </script>
