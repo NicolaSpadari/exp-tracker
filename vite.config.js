@@ -26,8 +26,9 @@ export default defineConfig({
         VitePWA({
             base: "/",
             srcDir: "src",
-            filesname: "sw.js",
+            filename: "sw.js",
             strategies: "injectManifest",
+            includeAssets: ["/favicon.ico"],
             manifest: {
                 name: "Food Exp Tracker",
                 short_name: "Exp Tracker",
