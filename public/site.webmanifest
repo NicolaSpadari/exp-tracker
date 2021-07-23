@@ -1,6 +1,7 @@
 {
     "name": "Food Exp Tracker",
     "short_name": "Exp Tracker",
+    "description": "A food expiration tracking app",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",

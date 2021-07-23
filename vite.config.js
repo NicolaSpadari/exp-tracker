@@ -32,6 +32,7 @@ export default defineConfig({
             manifest: {
                 name: "Food Exp Tracker",
                 short_name: "Exp Tracker",
+                description: "A food expiration tracking app",
                 theme_color: "#222226",
                 background_color: "#222226",
                 display: "standalone",
