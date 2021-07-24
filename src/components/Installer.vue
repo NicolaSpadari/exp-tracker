@@ -9,18 +9,38 @@
 			</div>
 		</button>
 	</li>
+
+	<Modal :visible="appInstalled" @close="appInstalled = false">
+		<template v-slot:content>
+			<div class="sm:flex sm:items-start">
+				<div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-tidal-cyan-highlight sm:mx-0 sm:h-10 sm:w-10">
+					<CheckIcon class="icon h-6 w-6 text-tidal-cyan" />
+				</div>
+				<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+					<h3 class="text-lg leading-6 font-medium text-white">App installata</h3>
+					<div class="mt-2">
+						<p class="text-sm text-gray-300">Potrai riaprire questo sito direttamente dalle tue app.</p>
+					</div>
+				</div>
+			</div>
+		</template>
+		<template v-slot:actions>
+			<button type="button" v-dark-ripple @click="appInstalled = false" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-tidal-cyan-highlight text-base font-medium text-tidal-cyan sm:ml-3 sm:w-auto sm:text-sm outline-none">Ho capito</button>
+		</template>
+	</Modal>
 </template>
 
 <script setup>
 	import { computed, ref } from "vue";
-	import { DownloadIcon } from "@heroicons/vue/outline";
+	import { DownloadIcon, CheckIcon } from "@heroicons/vue/outline";
 	import { store } from "@/store";
 
 	const deferredPrompt = ref();
 	const isVisible = ref(false);
+	const appInstalled = ref(false);
 	const pwaInstall = computed(() => store.pwaInstall);
 
-	if (pwaInstall.value?.type == "beforeIinstallprompt") {
+	if (pwaInstall.value?.type == "beforeinstallprompt") {
 		deferredPrompt.value = pwaInstall.value;
 		isVisible.value = true;
 	}
