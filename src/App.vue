@@ -25,8 +25,6 @@
 	<SettingsPanel :open="settingsState" @close="settingsState = false" />
 
 	<BottomBar @openPanel="openState = true" @mainMenuOpen="log('main')" @secondaryMenuOpen="settingsState = true" />
-
-	<!-- <ReloadPrompt /> -->
 </template>
 
 <script setup>
