@@ -26,7 +26,9 @@
 
 	<BottomBar @openPanel="openState = true" @mainMenuOpen="log('main')" @secondaryMenuOpen="settingsState = true" />
 
-	<!-- <ReloadPrompt /> -->
+	<ReloadPrompt />
+
+	<button v-show="showInstall" type="button" @click="installPWA()" class="absolute top-1 left-1">Installa</button>
 </template>
 
 <script setup>
@@ -39,14 +41,41 @@
 		});
 	}
 
+	let deferredPrompt;
+
 	const openState = ref(false);
 	const listState = ref(false);
 	const settingsState = ref(false);
+	const showInstall = ref(false);
 
 	const productsVersion = ref(0);
 
 	const log = (msg) => {
 		console.log(msg);
+	};
+
+	onMounted(() => {
+		window.addEventListener("beforeInstallPrompt", (e) => {
+			e.preventDefault();
+
+			deferredPrompt = e;
+			showInstall.value = true;
+		});
+	});
+
+	const installPWA = (e) => {
+		showInstall.value = false;
+		deferredPrompt.prompt();
+
+		deferredPrompt.userChoice.then((res) => {
+			if (res.outcome === "accepted") {
+				console.log("A2HS accepted");
+			} else {
+				console.log("A2HS rejected");
+			}
+
+			deferredPrompt = null;
+		});
 	};
 </script>
 
