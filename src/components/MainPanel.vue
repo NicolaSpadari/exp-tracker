@@ -53,7 +53,7 @@
 	import { defineProps, defineEmits, onMounted, reactive } from "vue";
 	import moment from "moment/min/moment-with-locales";
 	import { MinusIcon, PlusIcon } from "@heroicons/vue/outline";
-	import { store } from "@/store";
+	import { store, getProducts } from "@/store";
 
 	const emit = defineEmits(["close", "productsEdited"]);
 
@@ -87,6 +87,7 @@
 				product.date = null;
 				product.name = "";
 				product.quantity = 1;
+				getProducts();
 				emit("productsEdited");
 				emit("close");
 			})

@@ -1,12 +1,16 @@
 import { reactive } from "vue";
 import firebase from "firebase/app";
 import "firebase/auth";
+import fb from "@/firebase.config";
+
+const db = fb.firestore();
 
 export const store = reactive({
     userName: null,
     signedIn: false,
     userPicture: null,
     userId: null,
+    products: [],
 });
 
 if (localStorage.getItem("credentials") !== null) {
@@ -51,3 +55,24 @@ export const logout = () => {
             localStorage.removeItem("credentials");
         });
 };
+
+export const getProducts = () => {
+    store.products = [];
+
+    db.collection("products_" + store.userId)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                console.log("pushing to store products");
+                store.products.push({
+                    id: doc.id,
+                    name: doc.data().name,
+                    date: doc.data().expirationDate.toDate(),
+                    picture: doc.data().picture,
+                    quantity: doc.data().quantity,
+                });
+            });
+        });
+};
+
+getProducts();

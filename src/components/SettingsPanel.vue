@@ -64,10 +64,10 @@
 
 <script setup>
 	import firebase from "@/firebase.config";
-	import { defineProps, defineEmits, reactive, ref } from "vue";
+	import { defineProps, defineEmits, ref } from "vue";
 	import { MinusIcon, PlusIcon } from "@heroicons/vue/outline";
 	import { TrashIcon } from "@heroicons/vue/solid";
-	import { store } from "@/store";
+	import { store, getProducts } from "@/store";
 
 	const emit = defineEmits(["close"]);
 
@@ -76,8 +76,6 @@
 	});
 
 	const db = firebase.firestore();
-
-	const allProducts = reactive([]);
 	const modalVisible = ref(false);
 
 	const deleteAll = () => {
@@ -85,15 +83,7 @@
 			.get()
 			.then((querySnapshot) => {
 				querySnapshot.forEach((doc) => {
-					allProducts.push({
-						id: doc.id,
-						name: doc.name,
-					});
-				});
-			})
-			.then(() => {
-				allProducts.forEach((doc) => {
-					db.collection("products")
+					db.collection("products_" + store.userId)
 						.doc(doc.id)
 						.delete()
 						.then(() => {
@@ -105,7 +95,7 @@
 				});
 			})
 			.then(() => {
-				window.location.reload();
+				getProducts();
 			});
 	};
 </script>

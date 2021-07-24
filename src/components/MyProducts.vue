@@ -1,6 +1,6 @@
 <template>
 	<template v-if="store.signedIn">
-		<template v-if="allProducts.length == 0 && props.showImage">
+		<template v-if="prods.length == 0 && props.showImage">
 			<img src="/empty.svg" class="w-[70%] mx-auto mt-5 mb-3 md:w-[400px]" />
 			<p class="text-white text-center">Nessun prodotto nella lista.<br />Inizia aggiungendo un prodotto col pulsante in basso</p>
 		</template>
@@ -70,7 +70,7 @@
 							</div>
 						</div>
 						<div class="bg-tidal-dark-200 px-4 py-3 justify-center sm:px-6 sm:flex sm:flex-row-reverse">
-							<button type="button" @click="deleteDoc(toDelete.id)" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-tidal-cyan-highlight text-base font-medium text-tidal-cyan sm:ml-3 sm:w-auto sm:text-sm outline-none">Elimina</button>
+							<button type="button" @click="removeQuantity(toDelete)" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-tidal-cyan-highlight text-base font-medium text-tidal-cyan sm:ml-3 sm:w-auto sm:text-sm outline-none">Elimina</button>
 							<button
 								type="button"
 								@click="
@@ -101,59 +101,40 @@
 	import moment from "moment/min/moment-with-locales";
 	import { ExclamationIcon } from "@heroicons/vue/solid";
 	import { CheckCircleIcon, XCircleIcon, TrashIcon } from "@heroicons/vue/outline";
-	import { store } from "@/store";
+	import { store, getProducts } from "@/store";
 
 	const props = defineProps({
 		expired: Boolean,
 		showImage: Boolean,
 	});
 
-	const allProducts = ref([]);
 	const modalVisible = ref(false);
 	const toDelete = ref({});
 	const db = firebase.firestore();
 
 	onMounted(() => {
 		moment.locale("it");
-
-		if (store.signedIn) {
-			console.log("signed in");
-			getProducts();
-		}
 	});
 
-	const getProducts = () => {
-		allProducts.value = [];
-		db.collection("products_" + store.userId)
-			.get()
-			.then((querySnapshot) => {
-				querySnapshot.forEach((doc) => {
-					allProducts.value.push({
-						id: doc.id,
-						name: doc.data().name,
-						date: doc.data().expirationDate.toDate(),
-						picture: doc.data().picture,
-						quantity: doc.data().quantity,
-					});
-				});
-			});
-	};
+	const prods = computed(() => {
+		return store.products;
+	});
 
 	const expiredProducts = computed(() => {
-		return allProducts.value.filter((prod) => {
+		return prods.value.filter((prod) => {
 			return remainingTime(prod.date) <= 0;
 		});
 	});
 
 	const validProducts = computed(() => {
-		return allProducts.value.filter((prod) => {
+		return prods.value.filter((prod) => {
 			return remainingTime(prod.date) > 0;
 		});
 	});
 
 	const removeQuantity = (obj) => {
 		if (obj.quantity - 1 == 0) {
-			askDelete(obj);
+			deleteDoc(obj.id);
 		} else {
 			db.collection("products_" + store.userId)
 				.doc(obj.id)
@@ -162,6 +143,8 @@
 				})
 				.then(() => {
 					console.log("updated product successfully");
+					toDelete.value = {};
+					modalVisible.value = false;
 					getProducts();
 				})
 				.catch((err) => {
