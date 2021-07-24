@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-	import { computed, ref } from "vue";
+	import { onMounted, computed, ref } from "vue";
 	import { DownloadIcon, CheckIcon } from "@heroicons/vue/outline";
 	import { store } from "@/store";
 
@@ -40,21 +40,26 @@
 	const appInstalled = ref(false);
 	const pwaInstall = computed(() => store.pwaInstall);
 
-	if (pwaInstall.value?.type == "beforeinstallprompt") {
-		deferredPrompt.value = pwaInstall.value;
-		isVisible.value = true;
+	if (import.meta.env.MODE === "production" && typeof window !== "undefined") {
+		onMounted(async () => {
+			window.addEventListener("beforeinstallprompt", (e) => {
+				e.preventDefault();
+				deferredPrompt.value = e;
+				isVisible.value = true;
+
+				console.log("beforeinstallprompt event was fired");
+			});
+		});
 	}
 
-	const installPWA = () => {
+	const installPWA = async () => {
 		isVisible.value = false;
 		deferredPrompt.value.prompt();
 
-		deferredPrompt.value.userChoice.then((res) => {
-			if (res.outcome == "accepted") {
-				console.log("User accepted A2HS");
-			} else {
-				console.log("User rejected A2HS");
-			}
-		});
+		const { outcome } = await deferredPrompt.value.userChoice;
+
+		console.log("User response to A2HS: ", outcome);
+
+		deferredPrompt.value = null;
 	};
 </script>
