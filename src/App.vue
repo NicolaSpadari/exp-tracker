@@ -54,12 +54,12 @@
 			</div>
 		</div>
 
-		<Modal :visible="datepickerVisible" @close="datepickerVisible = false">
+		<Modal :visible="datepickerVisible" @close="closeDatepicker()">
 			<template v-slot:content>
 				<DatePicker v-model="product.date" :min-date="minDate" @dayclick="closeDatepicker()" is-dark color="orange" />
 			</template>
 			<template v-slot:actions>
-				<button type="button" v-dark-ripple @click="datePickerVisible = false" class="mt-3 w-full inline-flex justify-center rounded-md shadow-sm px-4 py-2 bg-tidal-gold-highlight text-base font-medium text-tidal-gold sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm outline-none">Annulla</button>
+				<button type="button" v-dark-ripple @click="closeDatepicker()" class="mt-3 w-full inline-flex justify-center rounded-md shadow-sm px-4 py-2 bg-tidal-gold-highlight text-base font-medium text-tidal-gold sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm outline-none">Annulla</button>
 			</template>
 		</Modal>
 
