@@ -42,7 +42,7 @@
 
 	if (import.meta.env.MODE === "production" && typeof window !== "undefined") {
 		onMounted(async () => {
-			window.addEventListener("beforeinstallprompt", (e) => {
+			await window.addEventListener("beforeinstallprompt", (e) => {
 				e.preventDefault();
 				deferredPrompt.value = e;
 				isVisible.value = true;
