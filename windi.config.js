@@ -32,7 +32,7 @@ let windiConfig = {
                 "tidal-gold-highlight": "#494038",
                 "tidal-dark-highlight": "#2E2E31",
                 "tidal-dark-active": "#8C8C8F",
-                "tidal-dark-200": "#222226",
+                "tidal-dark-200": "#242528",
                 "tidal-dark-300": "#17171A",
             },
         },

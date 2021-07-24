@@ -11,7 +11,7 @@
 						<p class="text-white font-heading">Prodotti scaduti ({{ expiredProducts.length }})</p>
 					</div>
 				</div>
-				<div v-for="product in expiredProducts" :key="product.id" class="bg-tidal-dark-highlight card-row space-x-2 rounded-md py-2 mb-2">
+				<div v-for="product in expiredProducts" :key="product.id" v-gold-ripple class="bg-tidal-dark-highlight card-row space-x-2 rounded-md py-2 mb-2">
 					<div class="autofit-col autofit-col-gutters pr-0 pl-3">
 						<button type="button" @click="removeQuantity(product)" class="grid content-center w-full h-full outline-none">
 							<XCircleIcon class="icon w-6 h-6 text-tidal-gold mx-auto" />
@@ -33,7 +33,7 @@
 			</template>
 
 			<template v-if="!props.expired && validProducts.length > 0">
-				<div v-for="product in validProducts" :key="product.id" class="bg-tidal-dark-highlight card-row space-x-2 rounded-md py-2 mb-2">
+				<div v-for="product in validProducts" :key="product.id" v-dark-ripple class="bg-tidal-dark-highlight card-row space-x-2 rounded-md py-2 mb-2">
 					<div class="autofit-col autofit-col-gutters pr-0 pl-3">
 						<button type="button" @click="askDelete(product)" class="grid content-center w-full h-full outline-none">
 							<CheckCircleIcon class="icon w-6 h-6 text-tidal-cyan mx-auto" />
@@ -70,9 +70,10 @@
 							</div>
 						</div>
 						<div class="bg-tidal-dark-200 px-4 py-3 justify-center sm:px-6 sm:flex sm:flex-row-reverse">
-							<button type="button" @click="removeQuantity(toDelete)" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-tidal-cyan-highlight text-base font-medium text-tidal-cyan sm:ml-3 sm:w-auto sm:text-sm outline-none">Elimina</button>
+							<button type="button" v-dark-ripple @click="removeQuantity(toDelete)" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-tidal-cyan-highlight text-base font-medium text-tidal-cyan sm:ml-3 sm:w-auto sm:text-sm outline-none">Elimina</button>
 							<button
 								type="button"
+								v-dark-ripple
 								@click="
 									toDelete = {};
 									modalVisible = false;
