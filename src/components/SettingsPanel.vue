@@ -65,9 +65,9 @@
 <script setup>
 	import firebase from "@/firebase.config";
 	import { defineProps, defineEmits, reactive, ref } from "vue";
-	import moment from "moment/min/moment-with-locales";
 	import { MinusIcon, PlusIcon } from "@heroicons/vue/outline";
 	import { TrashIcon } from "@heroicons/vue/solid";
+	import { store } from "@/store";
 
 	const emit = defineEmits(["close"]);
 
@@ -81,7 +81,7 @@
 	const modalVisible = ref(false);
 
 	const deleteAll = () => {
-		db.collection("products")
+		db.collection("products_" + store.userId)
 			.get()
 			.then((querySnapshot) => {
 				querySnapshot.forEach((doc) => {

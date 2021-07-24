@@ -5,16 +5,39 @@
 		<div class="container">
 			<div class="px-4 py-5 sm:p-6">
 				<div class="space-y-6 mt-3">
-					<button type="button" class="bg-tidal-dark-highlight card-row space-x-2 rounded-md py-3 outline-none">
+					<button v-if="!store.signedIn" type="button" @click="login()" class="bg-tidal-dark-highlight card-row space-x-2 rounded-md py-3 outline-none">
 						<div class="autofit-col autofit-col-gutters pr-0 pl-3">
 							<div class="grid content-center w-full h-full">
-								<TrashIcon class="icon w-6 h-6 text-tidal-gold mx-auto" />
+								<UserAddIcon class="icon w-6 h-6 text-tidal-gold mx-auto" />
 							</div>
 						</div>
 						<div class="autofit-col autofit-col-gutters autofit-col-expand">
-							<p class="flex text-white font-heading space-x-1">Elimina tutto</p>
+							<p class="flex text-white font-heading space-x-1">Accedi</p>
 						</div>
 					</button>
+
+					<template v-if="store.signedIn">
+						<button type="button" class="bg-tidal-dark-highlight card-row space-x-2 rounded-md py-3 outline-none">
+							<div class="autofit-col autofit-col-gutters pr-0 pl-3">
+								<div class="grid content-center w-full h-full">
+									<img :src="store.userPicture" class="w-6 h-6 rounded-full" />
+								</div>
+							</div>
+							<div class="autofit-col autofit-col-gutters autofit-col-expand">
+								<p class="flex text-white font-heading space-x-1 text-left">Sei autenticato come {{ store.userName }}</p>
+							</div>
+						</button>
+						<button type="button" @click="logout()" class="bg-tidal-dark-highlight card-row space-x-2 rounded-md py-3 outline-none">
+							<div class="autofit-col autofit-col-gutters pr-0 pl-3">
+								<div class="grid content-center w-full h-full">
+									<UserRemoveIcon class="icon w-6 h-6 text-tidal-gold mx-auto" />
+								</div>
+							</div>
+							<div class="autofit-col autofit-col-gutters autofit-col-expand">
+								<p class="flex text-white font-heading space-x-1">Esci</p>
+							</div>
+						</button>
+					</template>
 				</div>
 			</div>
 
@@ -26,11 +49,10 @@
 </template>
 
 <script setup>
-	import firebase from "@/firebase.config";
-	import { defineProps, defineEmits, ref } from "vue";
-	import moment from "moment/min/moment-with-locales";
+	import { computed, defineProps, defineEmits, ref } from "vue";
 	import { MinusIcon, PlusIcon } from "@heroicons/vue/outline";
-	import { TrashIcon } from "@heroicons/vue/solid";
+	import { UserIcon, UserAddIcon, UserRemoveIcon } from "@heroicons/vue/solid";
+	import { store, login, logout } from "@/store";
 
 	const emit = defineEmits(["close"]);
 

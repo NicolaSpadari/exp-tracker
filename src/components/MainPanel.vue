@@ -53,6 +53,7 @@
 	import { defineProps, defineEmits, onMounted, reactive } from "vue";
 	import moment from "moment/min/moment-with-locales";
 	import { MinusIcon, PlusIcon } from "@heroicons/vue/outline";
+	import { store } from "@/store";
 
 	const emit = defineEmits(["close", "productsEdited"]);
 
@@ -74,7 +75,7 @@
 	});
 
 	const addDoc = () => {
-		db.collection("products")
+		db.collection("products_" + store.userId)
 			.add({
 				name: product.name,
 				expirationDate: moment(product.date).toDate(),

@@ -24,7 +24,7 @@
 
 	<SettingsPanel :open="settingsState" @close="settingsState = false" />
 
-	<BottomBar @openPanel="openState = true" @mainMenuOpen="log('main')" @secondaryMenuOpen="settingsState = true" />
+	<BottomBar @openPanel="openState = true" @mainMenuOpen="listState = true" @secondaryMenuOpen="settingsState = true" />
 </template>
 
 <script setup>
@@ -35,10 +35,6 @@
 	const settingsState = ref(false);
 
 	const productsVersion = ref(0);
-
-	const log = (msg) => {
-		console.log(msg);
-	};
 </script>
 
 <style lang="scss">
