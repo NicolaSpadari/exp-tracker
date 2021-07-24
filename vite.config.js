@@ -30,6 +30,8 @@ export default defineConfig({
                 theme_color: "#222226",
                 background_color: "#222226",
                 display: "standalone",
+                start_url: "/",
+                lang: "it_IT",
                 icons: [
                     {
                         src: "/android-chrome-192x192.png",
