@@ -29,7 +29,7 @@
 			<div class="col-12 col-md-6 col-lg-4">
 				<div class="form-group">
 					<label for="product-date" class="block text-sm font-medium text-white">Data di scadenza</label>
-					<input readonly @click="datepickerVisible = true" :value="product.date == null ? '' : moment(product.date).format('DD MMMM YYYY')" id="product-date" class="bg-tidal-dark-300 mt-1 block w-full shadow-sm sm:text-sm text-white rounded-md outline-none p-2" />
+					<input readonly @click="openDatepicker()" :value="product.date == null ? '' : moment(product.date).format('DD MMMM YYYY')" id="product-date" class="bg-tidal-dark-300 mt-1 block w-full shadow-sm sm:text-sm text-white rounded-md outline-none p-2" />
 				</div>
 			</div>
 			<div class="col-12 col-md-6 col-lg-4">
@@ -56,7 +56,7 @@
 
 		<Modal :visible="datepickerVisible" @close="datepickerVisible = false">
 			<template v-slot:content>
-				<DatePicker v-model="product.date" :min-date="minDate" @dayclick="datepickerVisible = false" is-dark color="orange" />
+				<DatePicker v-model="product.date" :min-date="minDate" @dayclick="closeDatepicker()" is-dark color="orange" />
 			</template>
 			<template v-slot:actions>
 				<button type="button" v-dark-ripple @click="datePickerVisible = false" class="mt-3 w-full inline-flex justify-center rounded-md shadow-sm px-4 py-2 bg-tidal-gold-highlight text-base font-medium text-tidal-gold sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm outline-none">Annulla</button>
@@ -211,6 +211,18 @@
 		date: null,
 		quantity: 1,
 	});
+
+	const openDatepicker = () => {
+		datepickerVisible.value = true;
+		listState.value = false;
+		settingsSetate.value = false;
+	};
+
+	const closeDatepicker = () => {
+		datepickerVisible.value = false;
+		listState.value = false;
+		settingsState.value = false;
+	};
 
 	const addDoc = () => {
 		db.collection("products_" + store.userId)
