@@ -60,6 +60,7 @@
 
 		console.log("User response to A2HS: ", outcome);
 
+		appInstalled.value = true;
 		deferredPrompt.value = null;
 	};
 </script>
