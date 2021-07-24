@@ -5,88 +5,83 @@
 			<p class="text-white text-center">Nessun prodotto nella lista.<br />Inizia aggiungendo un prodotto col pulsante in basso</p>
 		</template>
 		<template v-else>
-			<template v-if="props.expired && expiredProducts.length > 0">
-				<div class="card-row space-x-2 mb-3">
-					<div class="autofit-col autofit-col-gutters">
-						<p class="text-white font-heading">Prodotti scaduti ({{ expiredProducts.length }})</p>
+			<ul v-if="props.expired && expiredProducts.length > 0" class="flex flex-col space-y-3">
+				<li class="flex flex-row">
+					<div v-dark-ripple class="outline-none select-none cursor-pointer flex flex-1 items-center space-x-3 py-2 px-3">
+						<div class="flex-1">
+							<p class="text-white font-heading">Prodotti scaduti ({{ expiredProducts.length }})</p>
+						</div>
 					</div>
-				</div>
-				<div v-for="product in expiredProducts" :key="product.id" v-gold-ripple class="bg-tidal-dark-highlight card-row space-x-2 rounded-md py-2 mb-2">
-					<div class="autofit-col autofit-col-gutters pr-0 pl-3">
-						<button type="button" @click="removeQuantity(product)" class="grid content-center w-full h-full outline-none">
-							<XCircleIcon class="icon w-6 h-6 text-tidal-gold mx-auto" />
+				</li>
+				<li v-for="product in expiredProducts" :key="product.id" class="flex flex-row bg-tidal-dark-highlight rounded-md">
+					<div v-dark-ripple class="outline-none select-none cursor-pointer flex flex-1 items-center space-x-3 py-2 px-3">
+						<button type="button" @click="askDelete(product)" class="flex flex-col w-6 h-10 justify-center items-center">
+							<XCircleIcon class="mx-auto w-6 h-6 text-tidal-gold" />
 						</button>
+						<div class="flex-1">
+							<p class="flex text-white font-heading space-x-1">
+								<span>{{ shortString(product.name, 25) }}</span>
+								<ExclamationIcon class="icon w-4 h-4 text-tidal-gold my-auto" />
+								<span class="text-sm my-auto">({{ product.quantity }})</span>
+							</p>
+							<p class="text-white font-text text-sm">
+								Scaduto
+								<template v-if="remainingTime(product.date) == 0"> oggi </template>
+								<template v-else> il {{ moment(product.date).format("DD MMMM") }} </template>
+							</p>
+						</div>
 					</div>
-					<div class="autofit-col autofit-col-gutters autofit-col-expand">
-						<p class="flex text-white font-heading space-x-1">
-							<span>{{ shortString(product.name, 25) }}</span>
-							<ExclamationIcon class="icon w-4 h-4 text-tidal-gold my-auto" />
-							<span class="text-sm my-auto">({{ product.quantity }})</span>
-						</p>
-						<p class="text-white font-text text-sm">
-							Scaduto
-							<template v-if="remainingTime(product.date) == 0"> oggi </template>
-							<template v-else> il {{ moment(product.date).format("DD MMMM") }} </template>
-						</p>
-					</div>
-				</div>
-			</template>
+				</li>
+			</ul>
 
-			<template v-if="!props.expired && validProducts.length > 0">
-				<div v-for="product in validProducts" :key="product.id" v-dark-ripple class="bg-tidal-dark-highlight card-row space-x-2 rounded-md py-2 mb-2">
-					<div class="autofit-col autofit-col-gutters pr-0 pl-3">
-						<button type="button" @click="askDelete(product)" class="grid content-center w-full h-full outline-none">
-							<CheckCircleIcon class="icon w-6 h-6 text-tidal-cyan mx-auto" />
+			<ul v-if="!props.expired && validProducts.length > 0" class="flex flex-col space-y-3">
+				<li v-for="product in validProducts" :key="product.id" class="flex flex-row bg-tidal-dark-highlight rounded-md">
+					<div v-dark-ripple class="outline-none select-none cursor-pointer flex flex-1 items-center space-x-3 py-2 px-3">
+						<button type="button" @click="askDelete(product)" class="flex flex-col w-6 h-10 justify-center items-center">
+							<CheckCircleIcon class="mx-auto w-6 h-6 text-tidal-cyan" />
 						</button>
+						<div class="flex-1">
+							<p class="font-heading text-white">
+								{{ shortString(product.name, 25) }}
+								<span class="text-sm">({{ product.quantity }})</span>
+							</p>
+							<p v-if="remainingTime(product.date) == 1" class="animate-pulse text-tidal-gold font-text">Scade domani</p>
+							<p v-else class="text-white font-text">{{ remainingTime(product.date) }} giorni rimanenti</p>
+						</div>
 					</div>
-					<div class="autofit-col autofit-col-gutters autofit-col-expand">
-						<p class="font-heading text-white">
-							{{ shortString(product.name, 25) }}
-							<span class="text-sm">({{ product.quantity }})</span>
-						</p>
-						<p class="text-white font-text">{{ remainingTime(product.date) }} giorni rimanenti</p>
-					</div>
-				</div>
-			</template>
+				</li>
+			</ul>
 		</template>
 
-		<transition name="fade">
-			<div v-if="modalVisible" class="fixed z-10 inset-0 overflow-y-auto z-15" role="dialog">
-				<div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-					<div @click="modalVisible = false" class="fixed inset-0 bg-tidal-dark-200/90 transition-opacity"></div>
-					<span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
-					<div class="inline-block align-bottom rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-						<div class="bg-tidal-dark-300 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-							<div class="sm:flex sm:items-start">
-								<div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-tidal-gold-highlight sm:mx-0 sm:h-10 sm:w-10">
-									<TrashIcon class="icon h-6 w-6 text-tidal-gold" />
-								</div>
-								<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-									<h3 class="text-lg leading-6 font-medium text-white">Eliminare {{ toDelete.name }}?</h3>
-									<div class="mt-2">
-										<p class="text-sm text-gray-300">Questa azione non può essere interrotta. Vuoi procedere?</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="bg-tidal-dark-200 px-4 py-3 justify-center sm:px-6 sm:flex sm:flex-row-reverse">
-							<button type="button" v-dark-ripple @click="removeQuantity(toDelete)" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-tidal-cyan-highlight text-base font-medium text-tidal-cyan sm:ml-3 sm:w-auto sm:text-sm outline-none">Elimina</button>
-							<button
-								type="button"
-								v-dark-ripple
-								@click="
-									toDelete = {};
-									modalVisible = false;
-								"
-								class="mt-3 w-full inline-flex justify-center rounded-md shadow-sm px-4 py-2 bg-tidal-dark-300 text-base font-medium text-white sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm outline-none"
-							>
-								Annulla
-							</button>
+		<Modal :visible="modalVisible">
+			<template v-slot:content>
+				<div class="sm:flex sm:items-start">
+					<div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-tidal-gold-highlight sm:mx-0 sm:h-10 sm:w-10">
+						<TrashIcon class="icon h-6 w-6 text-tidal-gold" />
+					</div>
+					<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+						<h3 class="text-lg leading-6 font-medium text-white">Eliminare {{ toDelete.name }}?</h3>
+						<div class="mt-2">
+							<p class="text-sm text-gray-300">Questa azione non può essere interrotta. Vuoi procedere?</p>
 						</div>
 					</div>
 				</div>
-			</div>
-		</transition>
+			</template>
+			<template v-slot:actions>
+				<button type="button" v-dark-ripple @click="removeQuantity(toDelete)" class="btn btn-app-cyan w-full inline-flex justify-center sm:ml-3 sm:w-auto sm:text-sm">Elimina</button>
+				<button
+					type="button"
+					v-dark-ripple
+					@click="
+						toDelete = {};
+						modalVisible = false;
+					"
+					class="btn btn-app-dark mt-3 w-full inline-flex justify-center sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+				>
+					Annulla
+				</button>
+			</template>
+		</Modal>
 	</template>
 	<template v-else>
 		<template v-if="props.showImage">
