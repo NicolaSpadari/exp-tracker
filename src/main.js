@@ -5,5 +5,10 @@ import "./assets/css/fonts.css";
 import "virtual:windi-base.css";
 import "virtual:windi-utilities.css";
 import "virtual:windi-devtools";
+import { registerSW } from "virtual:pwa-register";
 
-createApp(App).mount("#app");
+const app = createApp(App);
+
+registerSW();
+
+app.mount("#app");
