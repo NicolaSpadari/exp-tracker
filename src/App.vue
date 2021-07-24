@@ -64,7 +64,7 @@
 		</Modal>
 
 		<div class="flex justify-center space-x-4 mt-4">
-			<button type="button" v-dark-ripple @click="mainState = false" class="btn btn-app-dark">Chiudi</button>
+			<button type="button" v-dark-ripple @click="closeDatepicker()" class="btn btn-app-dark">Chiudi</button>
 			<button type="button" v-dark-ripple @click="addDoc()" class="btn text-center px-4 py-2 rounded-md shadow-sm text-sm font-medium text-tidal-cyan bg-tidal-cyan-highlight outline-none" :class="{ 'opacity-40': product.name == '' || product.date == null }" :disabled="product.name == '' || product.date == null">Aggiungi</button>
 		</div>
 	</Panel>
@@ -72,7 +72,7 @@
 	<Panel :id="'settings'" :visible="settingsState" @close="settingsState = false">
 		<ul class="flex flex-col space-y-3">
 			<li class="flex flex-row bg-tidal-dark-highlight rounded-md">
-				<button type="button" v-dark-ripple @click="logoutVisible = true" class="outline-none select-none cursor-pointer flex flex-1 items-center space-x-3 py-2 px-3">
+				<button type="button" v-dark-ripple @click="deleteAllVisible = true" class="outline-none select-none cursor-pointer flex flex-1 items-center space-x-3 py-2 px-3">
 					<div class="flex flex-col w-10 h-10 justify-center items-center">
 						<TrashIcon class="mx-auto w-6 h-6 text-tidal-gold" />
 					</div>
@@ -86,7 +86,7 @@
 			<button type="button" v-dark-ripple @click="settingsState = false" class="btn text-center px-4 py-2 rounded-md shadow-sm text-sm font-medium text-white bg-tidal-dark-300 outline-none">Chiudi</button>
 		</div>
 
-		<Modal :visible="modalVisible" @close="modalVisible = false">
+		<Modal :visible="deleteAllVisible" @close="deleteAllVisible = false">
 			<template v-slot:content>
 				<div class="sm:flex sm:items-start">
 					<div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-tidal-gold-highlight sm:mx-0 sm:h-10 sm:w-10">
@@ -106,13 +106,13 @@
 					v-dark-ripple
 					@click="
 						deleteAll();
-						modalVisible = false;
+						deleteAllVisible = false;
 					"
 					class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-tidal-cyan-highlight text-base font-medium text-tidal-cyan sm:ml-3 sm:w-auto sm:text-sm outline-none"
 				>
 					Elimina
 				</button>
-				<button type="button" v-dark-ripple @click="modalVisible = false" class="mt-3 w-full inline-flex justify-center rounded-md shadow-sm px-4 py-2 bg-tidal-dark-300 text-base font-medium text-white sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm outline-none">Annulla</button>
+				<button type="button" v-dark-ripple @click="deleteAllVisible = false" class="mt-3 w-full inline-flex justify-center rounded-md shadow-sm px-4 py-2 bg-tidal-dark-300 text-base font-medium text-white sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm outline-none">Annulla</button>
 			</template>
 		</Modal>
 	</Panel>
@@ -205,7 +205,7 @@
 
 	const db = firebase.firestore();
 	const datepickerVisible = ref(false);
-	const modalVisible = ref(false);
+	const deleteAllVisible = ref(false);
 	const logoutVisible = ref(false);
 	const mainState = ref(false);
 	const listState = ref(false);
