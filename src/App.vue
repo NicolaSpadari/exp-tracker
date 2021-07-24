@@ -164,7 +164,7 @@
 			<template v-slot:content>
 				<div class="sm:flex sm:items-start">
 					<div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-tidal-gold-highlight sm:mx-0 sm:h-10 sm:w-10">
-						<TrashIcon class="icon h-6 w-6 text-tidal-gold" />
+						<UserRemoveIcon class="icon h-6 w-6 text-tidal-gold" />
 					</div>
 					<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
 						<h3 class="text-lg leading-6 font-medium text-white">Eseguire il logout?</h3>
@@ -226,7 +226,7 @@
 	const openDatepicker = () => {
 		datepickerVisible.value = true;
 		listState.value = false;
-		settingsSetate.value = false;
+		settingsState.value = false;
 	};
 
 	const closeDatepicker = () => {
@@ -325,7 +325,7 @@
 		@apply bg-tidal-dark-300 border-none;
 
 		.vc-weekday {
-			@apply text-tidal-gold;
+			@apply text-tidal-cyan;
 		}
 	}
 </style>
