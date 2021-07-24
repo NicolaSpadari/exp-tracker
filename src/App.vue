@@ -37,7 +37,7 @@
 					<label class="block text-sm font-medium text-white">Quantità</label>
 					<div class="flex space-x-4 mt-2">
 						<div>
-							<button type="button" v-cyan-ripple @click="product.quantity--" class="btn btn-monospaced outline-none bg-tidal-dark-active rounded-full w-6 h-6" :class="{ 'opacity-40': product.quantity < 2 }" :disabled="product.quantity < 2">
+							<button type="button" v-cyan-ripple @click="product.quantity--" class="btn btn-monospaced outline-none bg-tidal-dark-active rounded-full shadow-none w-6 h-6" :class="{ 'opacity-40': product.quantity < 2 }" :disabled="product.quantity < 2">
 								<MinusIcon class="icon text-white w-4 h-4" />
 							</button>
 						</div>
@@ -45,7 +45,7 @@
 							<p class="text-white align-middle">{{ product.quantity }}</p>
 						</div>
 						<div>
-							<button type="button" v-cyan-ripple @click="product.quantity++" class="btn btn-monospaced outline-none bg-tidal-dark-active rounded-full w-6 h-6">
+							<button type="button" v-cyan-ripple @click="product.quantity++" class="btn btn-monospaced outline-none bg-tidal-dark-active rounded-full shadow-none w-6 h-6">
 								<PlusIcon class="icon text-white w-4 h-4" />
 							</button>
 						</div>
