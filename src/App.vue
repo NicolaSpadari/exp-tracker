@@ -175,6 +175,17 @@
 				</div>
 			</template>
 			<template v-slot:actions>
+				<button
+					type="button"
+					v-cyan-ripple
+					@click="
+						logout();
+						logoutVisible = false;
+					"
+					class="btn btn-app-cyan w-full inline-flex justify-center sm:ml-3 sm:w-auto sm:text-sm"
+				>
+					Esci
+				</button>
 				<button type="button" v-dark-ripple @click="logoutVisible = false" class="btn btn-app-dark mt-3 w-full inline-flex justify-center sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">Annulla</button>
 			</template>
 		</Modal>
