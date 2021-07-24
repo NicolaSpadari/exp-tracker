@@ -11,6 +11,7 @@ export const store = reactive({
     userPicture: null,
     userId: null,
     products: [],
+    pwaInstall: null,
 });
 
 if (localStorage.getItem("credentials") !== null) {

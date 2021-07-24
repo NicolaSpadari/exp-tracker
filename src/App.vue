@@ -71,6 +71,8 @@
 
 	<Panel :id="'settings'" :visible="settingsState" @close="settingsState = false">
 		<ul class="flex flex-col space-y-3">
+			<Installer />
+
 			<li class="flex flex-row bg-tidal-dark-highlight rounded-md">
 				<button type="button" v-dark-ripple @click="deleteAllVisible = true" class="outline-none select-none cursor-pointer flex flex-1 items-center space-x-3 py-2 px-3">
 					<div class="flex flex-col w-10 h-10 justify-center items-center">
