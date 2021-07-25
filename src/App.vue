@@ -94,14 +94,14 @@
 	</Panel>
 
 	<Panel :id="'settings'" :visible="settingsState" @close="settingsState = false">
-		<button v-if="!store.signedIn" v-cyan-ripple type="button" @click="login()" class="bg-tidal-dark-highlight card-row space-x-2 rounded-md py-3 outline-none">
-			<div class="autofit-col autofit-col-gutters pr-0 pl-3">
-				<div class="grid content-center w-full h-full">
-					<UserAddIcon class="icon w-6 h-6 text-tidal-gold mx-auto" />
+		<button type="button" v-dark-ripple v-if="!store.signedIn" @click="login()" class="flex flex-row bg-tidal-dark-highlight rounded-md">
+			<div class="outline-none select-none cursor-pointer flex flex-1 items-center space-x-3 py-2 px-3">
+				<div class="flex flex-col w-10 h-10 justify-center items-center">
+					<UserAddIcon class="mx-auto w-6 h-6 text-tidal-gold" />
 				</div>
-			</div>
-			<div class="autofit-col autofit-col-gutters autofit-col-expand">
-				<p class="flex text-white font-heading space-x-1">Accedi</p>
+				<div class="flex-1">
+					<div class="text-left font-medium text-white">Accedi</div>
+				</div>
 			</div>
 		</button>
 
