@@ -121,7 +121,7 @@
 
 	<div v-else class="container">
 		<img src="/login.svg" class="w-[70%] mx-auto mt-5 mb-4 md:w-[400px]" />
-		<p class="text-white text-center">Effettua il login col tuo account Google dal pulsante in basso a sinistra</p>
+		<p class="text-white text-center">Effettua il login col tuo account Google dal pulsante in basso a destra</p>
 	</div>
 </template>
 

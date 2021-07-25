@@ -94,17 +94,6 @@
 	</Panel>
 
 	<Panel :id="'settings'" :visible="settingsState" @close="settingsState = false">
-		<button type="button" v-dark-ripple v-if="!store.signedIn" @click="login()" class="flex flex-row bg-tidal-dark-highlight rounded-md">
-			<div class="outline-none select-none cursor-pointer flex flex-1 items-center space-x-3 py-2 px-3">
-				<div class="flex flex-col w-10 h-10 justify-center items-center">
-					<UserAddIcon class="mx-auto w-6 h-6 text-tidal-gold" />
-				</div>
-				<div class="flex-1">
-					<div class="text-left font-medium text-white">Accedi</div>
-				</div>
-			</div>
-		</button>
-
 		<ul class="flex flex-col space-y-3">
 			<template v-if="store.signedIn">
 				<li class="flex flex-row bg-tidal-dark-highlight rounded-md">
@@ -128,6 +117,16 @@
 					</button>
 				</li>
 			</template>
+			<li v-else class="flex flex-row bg-tidal-dark-highlight rounded-md">
+				<button type="button" v-dark-ripple @click="login()" class="outline-none select-none cursor-pointer flex flex-1 items-center space-x-3 py-2 px-3">
+					<div class="flex flex-col w-10 h-10 justify-center items-center">
+						<UserAddIcon class="mx-auto w-6 h-6 text-tidal-gold" />
+					</div>
+					<div class="flex-1">
+						<div class="text-left font-medium text-white">Accedi</div>
+					</div>
+				</button>
+			</li>
 			<li class="flex flex-row bg-tidal-dark-highlight rounded-md">
 				<button type="button" v-dark-ripple class="outline-none select-none cursor-pointer flex flex-1 items-center space-x-3 py-2 px-3">
 					<div class="flex flex-col w-10 h-10 justify-center items-center">
