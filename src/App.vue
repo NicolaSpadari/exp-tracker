@@ -42,12 +42,12 @@
 				</div>
 			</template>
 			<template v-slot:actions>
-				<button type="button" v-dark-ripple @click="closeDatepicker()" class="mt-3 w-full inline-flex justify-center rounded-md shadow-sm px-4 py-2 bg-tidal-gold-highlight text-base font-medium text-tidal-gold sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm outline-none">Annulla</button>
+				<button type="button" v-dark-ripple @click="closeDatepicker()" class="btn-app-gold mt-3 w-full inline-flex justify-center sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm outline-none">Annulla</button>
 			</template>
 		</Modal>
 
 		<div class="flex justify-center space-x-4 mt-4">
-			<button type="button" v-dark-ripple @click="closeDatepicker()" class="btn-app-dark">Chiudi</button>
+			<button type="button" v-dark-ripple @click="mainState = false" class="btn-app-dark">Chiudi</button>
 			<button type="button" v-dark-ripple @click="addDoc()" class="text-center px-4 py-2 rounded-md shadow-sm text-sm font-medium text-tidal-cyan bg-tidal-cyan-highlight outline-none" :class="{ 'opacity-40': product.name == '' || product.date == null }" :disabled="product.name == '' || product.date == null">Aggiungi</button>
 		</div>
 	</Panel>
@@ -128,16 +128,6 @@
 				</button>
 			</li>
 			<li class="flex flex-row bg-tidal-dark-highlight rounded-md">
-				<button type="button" v-dark-ripple class="outline-none select-none cursor-pointer flex flex-1 items-center space-x-3 py-2 px-3">
-					<div class="flex flex-col w-10 h-10 justify-center items-center">
-						<SunIcon class="mx-auto w-6 h-6 text-tidal-gold" />
-					</div>
-					<div class="flex-1">
-						<div class="text-left font-medium text-white">Tema chiaro</div>
-					</div>
-				</button>
-			</li>
-			<li class="flex flex-row bg-tidal-dark-highlight rounded-md">
 				<button type="button" v-dark-ripple @click="deleteAllVisible = true" class="outline-none select-none cursor-pointer flex flex-1 items-center space-x-3 py-2 px-3">
 					<div class="flex flex-col w-10 h-10 justify-center items-center">
 						<TrashIcon class="mx-auto w-6 h-6 text-tidal-gold" />
@@ -149,8 +139,38 @@
 			</li>
 		</ul>
 		<div class="flex justify-center space-x-4 mt-4">
-			<button type="button" v-dark-ripple @click="settingsState = false" class="text-center px-4 py-2 rounded-md shadow-sm text-sm font-medium text-white bg-tidal-dark-300 outline-none">Chiudi</button>
+			<button type="button" v-dark-ripple @click="settingsState = false" class="btn-app-dark outline-none">Chiudi</button>
 		</div>
+
+		<Modal :visible="logoutVisible" @close="logoutVisible = false">
+			<template v-slot:content>
+				<div class="sm:flex sm:items-start">
+					<div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-tidal-gold-highlight sm:mx-0 sm:h-10 sm:w-10">
+						<UserRemoveIcon class="icon h-6 w-6 text-tidal-gold" />
+					</div>
+					<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+						<h3 class="text-lg leading-6 font-medium text-white">Eseguire il logout?</h3>
+						<div class="mt-2">
+							<p class="text-sm text-gray-300">Non potrai riaggiungere prodotti finché non rieffettuerai il login.</p>
+						</div>
+					</div>
+				</div>
+			</template>
+			<template v-slot:actions>
+				<button
+					type="button"
+					v-dark-ripple
+					@click="
+						logout();
+						logoutVisible = false;
+					"
+					class="btn-app-cyan w-full inline-flex justify-center rounded-md border border-transparent sm:ml-3 sm:w-auto sm:text-sm outline-none"
+				>
+					Esci
+				</button>
+				<button type="button" v-dark-ripple @click="deleteAllVisible = false" class="btn-app-dark mt-3 w-full inline-flex justify-center sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm outline-none">Annulla</button>
+			</template>
+		</Modal>
 
 		<Modal :visible="deleteAllVisible" @close="deleteAllVisible = false">
 			<template v-slot:content>

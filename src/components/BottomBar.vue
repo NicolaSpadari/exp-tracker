@@ -3,20 +3,20 @@
 		<nav class="flex flex-row">
 			<div class="bottom-tab bg-tidal-dark-200 rounded-tr-[30px] flex justify-start">
 				<button type="button" v-dark-ripple @click="emit('openList')" class="outline-none shadow-none px-2 pt-2">
-					<MenuIcon class="transition-colors duration-300 icon w-5 h-5 text-white hover:text-tidal-dark-active" />
+					<MenuIcon class="transition-colors duration-300 icon w-5 h-5 text-white" />
 				</button>
 			</div>
 			<div class="curved bg-tidal-dark-200 w-15 h-[25px] mt-auto">
 				<button v-if="store.signedIn" type="button" v-dark-ripple @click="emit('openPanel')" class="absolute inset-x-0 bottom-5 bg-tidal-cyan-highlight w-13 h-13 rounded-full pointer-events-auto mx-auto shadow-lg outline-none p-0">
-					<PlusIcon class="icon w-6 h-6 dark:text-gray-50 text-tidal-cyan mx-auto" />
+					<PlusIcon class="icon w-6 h-6 text-tidal-cyan mx-auto" />
 				</button>
 				<button v-else type="button" class="absolute inset-x-0 bottom-5 bg-tidal-cyan-highlight w-13 h-13 rounded-full pointer-events-auto mx-auto shadow-lg outline-none p-0">
-					<LockClosedIcon class="icon w-6 h-6 dark:text-gray-50 text-tidal-cyan mx-auto" />
+					<LockClosedIcon class="icon w-6 h-6 text-tidal-cyan mx-auto" />
 				</button>
 			</div>
 			<div class="bottom-tab bg-tidal-dark-200 rounded-tl-[30px] flex justify-end">
 				<button type="button" v-dark-ripple @click="emit('openSettings')" class="outline-none shadow-none px-2 pt-2">
-					<DotsVerticalIcon class="transition-colors duration-300 icon w-5 h-5 text-white hover:text-tidal-dark-active" />
+					<DotsVerticalIcon class="transition-colors duration-300 icon w-5 h-5 text-white" />
 				</button>
 			</div>
 		</nav>

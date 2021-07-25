@@ -48,6 +48,7 @@ export const login = () => {
             store.userId = res.additionalUserInfo.profile.id;
 
             localStorage.setItem("credentials", JSON.stringify(store));
+            getProducts();
         })
         .catch((err) => {
             console.error("err logging user: ", err);
@@ -64,6 +65,7 @@ export const logout = () => {
             store.signedIn = false;
 
             localStorage.removeItem("credentials");
+            getProducts();
         });
 };
 
@@ -74,7 +76,6 @@ export const getProducts = () => {
         .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-                console.log("pushing to store products");
                 store.products.push({
                     id: doc.id,
                     name: doc.data().name,
