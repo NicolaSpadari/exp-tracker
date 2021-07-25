@@ -1,21 +1,21 @@
 <template>
-	<div class="fixed-bottom z-10">
-		<nav class="navbar p-0">
+	<div class="fixed bottom-0 w-screen z-10">
+		<nav class="flex flex-row">
 			<div class="bottom-tab bg-tidal-dark-200 rounded-tr-[30px] flex justify-start">
-				<button type="button" v-dark-ripple @click="emit('mainMenuOpen')" class="btn btn-monospaced nav-item nav-link outline-none shadow-none mt-2 ml-1">
+				<button type="button" v-dark-ripple @click="emit('openList')" class="outline-none shadow-none px-2 pt-2">
 					<MenuIcon class="transition-colors duration-300 icon w-5 h-5 text-white hover:text-tidal-dark-active" />
 				</button>
 			</div>
 			<div class="curved bg-tidal-dark-200 w-15 h-[25px] mt-auto">
-				<button v-if="store.signedIn" type="button" v-dark-ripple @click="emit('openPanel')" class="btn absolute inset-x-0 bottom-1 bg-tidal-cyan-highlight w-13 h-13 rounded-full pointer-events-auto mx-auto shadow-lg outline-none p-0">
+				<button v-if="store.signedIn" type="button" v-dark-ripple @click="emit('openPanel')" class="absolute inset-x-0 bottom-5 bg-tidal-cyan-highlight w-13 h-13 rounded-full pointer-events-auto mx-auto shadow-lg outline-none p-0">
 					<PlusIcon class="icon w-6 h-6 dark:text-gray-50 text-tidal-cyan mx-auto" />
 				</button>
-				<button v-else type="button" class="btn absolute inset-x-0 bottom-1 bg-tidal-cyan-highlight w-13 h-13 rounded-full pointer-events-auto mx-auto shadow-lg outline-none p-0">
+				<button v-else type="button" class="absolute inset-x-0 bottom-5 bg-tidal-cyan-highlight w-13 h-13 rounded-full pointer-events-auto mx-auto shadow-lg outline-none p-0">
 					<LockClosedIcon class="icon w-6 h-6 dark:text-gray-50 text-tidal-cyan mx-auto" />
 				</button>
 			</div>
 			<div class="bottom-tab bg-tidal-dark-200 rounded-tl-[30px] flex justify-end">
-				<button type="button" v-dark-ripple @click="emit('secondaryMenuOpen')" class="btn btn-monospaced nav-item nav-link outline-none shadow-none mt-2 mr-1">
+				<button type="button" v-dark-ripple @click="emit('openSettings')" class="outline-none shadow-none px-2 pt-2">
 					<DotsVerticalIcon class="transition-colors duration-300 icon w-5 h-5 text-white hover:text-tidal-dark-active" />
 				</button>
 			</div>
@@ -30,7 +30,7 @@
 	import { LockClosedIcon } from "@heroicons/vue/outline";
 	import { store } from "@/store";
 
-	const emit = defineEmits(["mainMenuOpen", "secondaryMenuOpen", "openPanel"]);
+	const emit = defineEmits(["openList", "openSettings", "openPanel"]);
 </script>
 
 <style scoped>
@@ -40,5 +40,6 @@
 	}
 	.bottom-tab {
 		width: calc(50% - 1.875rem);
+		@apply p-2;
 	}
 </style>

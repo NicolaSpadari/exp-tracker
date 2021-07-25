@@ -1,17 +1,9 @@
 import { defineConfig } from "vite-plugin-windicss";
 
-const classRange = (size, startAt = 0) => {
-    return Array.from(Array(size).keys()).map((i) => i + startAt);
-};
-
 let windiConfig = {
     attributify: false,
     important: true,
     darkMode: "class",
-    blocklist: [classRange(6).map((i) => `p-${i}`), classRange(6).map((i) => `pt-${i}`), classRange(6).map((i) => `pb-${i}`), classRange(6).map((i) => `pr-${i}`), classRange(6).map((i) => `pl-${i}`), classRange(6).map((i) => `px-${i}`), classRange(6).map((i) => `py-${i}`), classRange(6).map((i) => `m-${i}`), classRange(6).map((i) => `mt-${i}`), classRange(6).map((i) => `mb-${i}`), classRange(6).map((i) => `mr-${i}`), classRange(6).map((i) => `ml-${i}`), classRange(6).map((i) => `mx-${i}`), classRange(6).map((i) => `my-${i}`)],
-    corePlugins: {
-        container: false,
-    },
     extract: {
         include: ["index.html", "src/**/*.{vue,html,js}"],
         exclude: ["node_modules", ".gitignore", ".gitattribute", ".eslint", ".eslingignore", "prettierrc", ".prettierignore"],
@@ -48,14 +40,6 @@ let windiConfig = {
             80: 80,
             90: 90,
             100: 100,
-        },
-        screens: {
-            xs: "0px",
-            sm: "576px",
-            md: "768px",
-            lg: "992px",
-            xl: "1200px",
-            xxl: "1400px",
         },
     },
 };

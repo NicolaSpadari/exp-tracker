@@ -1,4 +1,20 @@
 <template>
+	<div v-show="isVisible" @click="installPWA()" v-dark-ripple class="bg-tidal-cyan-highlight rounded-md mt-3 max-w-sm mx-auto">
+		<div class="mx-auto py-3 px-3 sm:px-6 lg:px-8">
+			<div class="flex items-center justify-between flex-wrap">
+				<div class="w-0 flex-1 flex items-center space-x-2">
+					<p class="ml-3 font-medium text-tidal-cyan font-heading">Installa app</p>
+					<DownloadIcon class="w-5 h-5 text-tidal-cyan" />
+				</div>
+				<div class="flex-shrink-0 sm:ml-3">
+					<button type="button" @click="closePopup($event)" class="btn-app-dark p-2">
+						<XIcon class="icon w-6 h-6 text-white" />
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<li v-if="isVisible" class="flex flex-row bg-tidal-dark-highlight rounded-md">
 		<button type="button" v-dark-ripple @click="installPWA()" class="outline-none select-none cursor-pointer flex flex-1 items-center space-x-3 py-2 px-3">
 			<div class="flex flex-col w-10 h-10 justify-center items-center">
@@ -32,25 +48,36 @@
 
 <script setup>
 	import { onMounted, computed, ref } from "vue";
-	import { DownloadIcon, CheckIcon } from "@heroicons/vue/outline";
+	import { DownloadIcon, CheckIcon, XIcon } from "@heroicons/vue/outline";
 	import { store } from "@/store";
 
 	const deferredPrompt = ref();
 	const isVisible = ref(false);
 	const appInstalled = ref(false);
-	const pwaInstall = computed(() => store.pwaInstall);
+
+	const isIos = () => {
+		const userAgent = window.navigator.userAgent.toLowerCase();
+		return /iphone|ipad|ipod/.test(userAgent);
+	};
 
 	if (import.meta.env.MODE === "production" && typeof window !== "undefined") {
 		onMounted(async () => {
-			await window.addEventListener("beforeinstallprompt", (e) => {
-				e.preventDefault();
-				deferredPrompt.value = e;
-				isVisible.value = true;
+			if (!isIos()) {
+				await window.addEventListener("beforeinstallprompt", (e) => {
+					e.preventDefault();
+					deferredPrompt.value = e;
+					isVisible.value = true;
 
-				console.log("beforeinstallprompt event was fired");
-			});
+					console.log("beforeinstallprompt event was fired");
+				});
+			}
 		});
 	}
+
+	const closePopup = (e) => {
+		e.stopPropagation();
+		isVisible.value = false;
+	};
 
 	const installPWA = async () => {
 		isVisible.value = false;

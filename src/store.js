@@ -1,4 +1,4 @@
-import { reactive } from "vue";
+import { watch, reactive } from "vue";
 import firebase from "firebase/app";
 import "firebase/auth";
 import fb from "@/firebase.config";
@@ -10,8 +10,8 @@ export const store = reactive({
     signedIn: false,
     userPicture: null,
     userId: null,
+    order: "date",
     products: [],
-    pwaInstall: null,
 });
 
 if (localStorage.getItem("credentials") !== null) {
@@ -21,7 +21,17 @@ if (localStorage.getItem("credentials") !== null) {
     store.signedIn = credentials.signedIn;
     store.userId = credentials.userId;
     store.userPicture = credentials.userPicture;
+    store.order = credentials.order;
 }
+
+watch(
+    () => store.order,
+    (newVal, oldVal) => {
+        if (newVal != oldVal) {
+            localStorage.setItem("credentials", JSON.stringify(store));
+        }
+    }
+);
 
 export const login = () => {
     let provider = new firebase.auth.GoogleAuthProvider();

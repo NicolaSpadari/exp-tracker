@@ -1,54 +1,35 @@
 <template>
-	<div class="pt-5">
-		<div class="overflow-y-auto max-h-[75vh]">
-			<div class="container">
-				<div class="flex flex-row mb-3">
-					<div class="outline-none select-none cursor-pointer flex flex-1 items-center space-x-3 py-2 px-3">
-						<div class="flex flex-col w-6 h-10 justify-center items-center"></div>
-						<div class="flex-1">
-							<p class="font-heading text-3xl text-white">I tuoi prodotti</p>
-						</div>
-					</div>
-				</div>
-				<MyProducts :showImage="true" :expired="false" />
-			</div>
-			<div class="container pt-3">
-				<MyProducts :showImage="false" :expired="true" />
-			</div>
-		</div>
+	<Installer />
+
+	<div class="pt-10">
+		<MyProducts />
 	</div>
 
 	<Panel :id="'main'" :visible="mainState" @close="mainState = false">
-		<div class="row">
-			<div class="col-12 col-md-6 col-lg-4">
-				<div class="form-group">
-					<label for="product-name" class="block text-sm font-medium text-white">Prodotto</label>
-					<input type="text" v-model="product.name" id="product-name" class="bg-tidal-dark-300 mt-1 block w-full shadow-sm sm:text-sm text-white rounded-md outline-none p-2" />
-				</div>
+		<div class="grid grid-cols-6 gap-6 space-y-2 md:space-y-0">
+			<div class="col-span-6 sm:col-span-3">
+				<label for="product-name" class="block text-sm font-medium text-white">Prodotto</label>
+				<input type="text" v-model="product.name" id="product-name" class="bg-tidal-dark-300 mt-1 block w-full shadow-sm sm:text-sm text-white rounded-md outline-none p-2" />
 			</div>
-			<div class="col-12 col-md-6 col-lg-4">
-				<div class="form-group">
-					<label for="product-date" class="block text-sm font-medium text-white">Data di scadenza</label>
-					<input readonly @click="openDatepicker()" :value="product.date == null ? '' : moment(product.date).format('DD MMMM YYYY')" id="product-date" class="bg-tidal-dark-300 mt-1 block w-full shadow-sm sm:text-sm text-white rounded-md outline-none p-2" />
-				</div>
+			<div class="col-span-6 sm:col-span-3">
+				<label for="product-date" class="block text-sm font-medium text-white">Data di scadenza</label>
+				<input readonly @click="openDatepicker()" :value="product.date == null ? '' : moment(product.date).format('DD MMMM YYYY')" id="product-date" class="bg-tidal-dark-300 mt-1 block w-full shadow-sm sm:text-sm text-white rounded-md outline-none p-2" />
 			</div>
-			<div class="col-12 col-md-6 col-lg-4">
-				<div class="form-group">
-					<label class="block text-sm font-medium text-white">Quantità</label>
-					<div class="flex space-x-4 mt-2">
-						<div>
-							<button type="button" v-cyan-ripple @click="product.quantity--" class="btn btn-monospaced outline-none bg-tidal-dark-active rounded-full shadow-none w-6 h-6" :class="{ 'opacity-40': product.quantity < 2 }" :disabled="product.quantity < 2">
-								<MinusIcon class="icon text-white w-4 h-4" />
-							</button>
-						</div>
-						<div class="my-auto">
-							<p class="text-white align-middle">{{ product.quantity }}</p>
-						</div>
-						<div>
-							<button type="button" v-cyan-ripple @click="product.quantity++" class="btn btn-monospaced outline-none bg-tidal-dark-active rounded-full shadow-none w-6 h-6">
-								<PlusIcon class="icon text-white w-4 h-4" />
-							</button>
-						</div>
+			<div class="col-span-6 sm:col-span-3 md:col-span-6">
+				<label class="block text-sm font-medium text-white">Quantità</label>
+				<div class="flex space-x-4 mt-2">
+					<div>
+						<button type="button" v-cyan-ripple @click="product.quantity--" class="outline-none bg-tidal-dark-active rounded-full shadow-none w-6 h-6" :class="{ 'opacity-40': product.quantity < 2 }" :disabled="product.quantity < 2">
+							<MinusIcon class="icon text-white w-4 h-4 mb-1" />
+						</button>
+					</div>
+					<div class="my-auto">
+						<p class="text-white align-middle">{{ product.quantity }}</p>
+					</div>
+					<div>
+						<button type="button" v-cyan-ripple @click="product.quantity++" class="outline-none bg-tidal-dark-active rounded-full shadow-none w-6 h-6">
+							<PlusIcon class="icon text-white w-4 h-4 mb-1" />
+						</button>
 					</div>
 				</div>
 			</div>
@@ -56,7 +37,9 @@
 
 		<Modal :visible="datepickerVisible" @close="closeDatepicker()">
 			<template v-slot:content>
-				<DatePicker v-model="product.date" :min-date="minDate" @dayclick="closeDatepicker()" is-dark color="orange" />
+				<div class="text-center">
+					<DatePicker v-model="product.date" :min-date="minDate" @dayclick="closeDatepicker()" is-dark color="orange" />
+				</div>
 			</template>
 			<template v-slot:actions>
 				<button type="button" v-dark-ripple @click="closeDatepicker()" class="mt-3 w-full inline-flex justify-center rounded-md shadow-sm px-4 py-2 bg-tidal-gold-highlight text-base font-medium text-tidal-gold sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm outline-none">Annulla</button>
@@ -64,15 +47,97 @@
 		</Modal>
 
 		<div class="flex justify-center space-x-4 mt-4">
-			<button type="button" v-dark-ripple @click="closeDatepicker()" class="btn btn-app-dark">Chiudi</button>
-			<button type="button" v-dark-ripple @click="addDoc()" class="btn text-center px-4 py-2 rounded-md shadow-sm text-sm font-medium text-tidal-cyan bg-tidal-cyan-highlight outline-none" :class="{ 'opacity-40': product.name == '' || product.date == null }" :disabled="product.name == '' || product.date == null">Aggiungi</button>
+			<button type="button" v-dark-ripple @click="closeDatepicker()" class="btn-app-dark">Chiudi</button>
+			<button type="button" v-dark-ripple @click="addDoc()" class="text-center px-4 py-2 rounded-md shadow-sm text-sm font-medium text-tidal-cyan bg-tidal-cyan-highlight outline-none" :class="{ 'opacity-40': product.name == '' || product.date == null }" :disabled="product.name == '' || product.date == null">Aggiungi</button>
+		</div>
+	</Panel>
+
+	<Panel :id="'list'" :visible="listState" @close="listState = false">
+		<div class="space-y-6 mt-3">
+			<ul class="flex flex-col space-y-3">
+				<li class="flex flex-row rounded-md" :class="store.order == 'date' ? 'bg-tidal-cyan-highlight' : 'bg-tidal-dark-highlight'">
+					<button type="button" v-dark-ripple @click="store.order = 'date'" class="outline-none select-none cursor-pointer flex flex-1 items-center space-x-3 py-2 px-3">
+						<div class="flex flex-col w-10 h-10 justify-center items-center">
+							<SelectorIcon class="mx-auto w-6 h-6" :class="store.order == 'date' ? 'text-tidal-cyan' : 'text-tidal-gold'" />
+						</div>
+						<div class="flex-1">
+							<div class="text-left font-medium" :class="store.order == 'date' ? 'text-tidal-cyan' : 'text-white'">Ordina per data</div>
+						</div>
+					</button>
+				</li>
+				<li class="flex flex-row rounded-md" :class="store.order == 'nameAsc' ? 'bg-tidal-cyan-highlight' : 'bg-tidal-dark-highlight'">
+					<button type="button" v-dark-ripple @click="store.order = 'nameAsc'" class="outline-none select-none cursor-pointer flex flex-1 items-center space-x-3 py-2 px-3">
+						<div class="flex flex-col w-10 h-10 justify-center items-center">
+							<SortAscendingIcon class="mx-auto w-6 h-6" :class="store.order == 'nameAsc' ? 'text-tidal-cyan' : 'text-tidal-gold'" />
+						</div>
+						<div class="flex-1">
+							<div class="text-left font-medium" :class="store.order == 'nameAsc' ? 'text-tidal-cyan' : 'text-white'">Ordina per nome</div>
+						</div>
+					</button>
+				</li>
+				<li class="flex flex-row rounded-md" :class="store.order == 'nameDesc' ? 'bg-tidal-cyan-highlight' : 'bg-tidal-dark-highlight'">
+					<button type="button" v-dark-ripple @click="store.order = 'nameDesc'" class="outline-none select-none cursor-pointer flex flex-1 items-center space-x-3 py-2 px-3">
+						<div class="flex flex-col w-10 h-10 justify-center items-center">
+							<SortDescendingIcon class="mx-auto w-6 h-6" :class="store.order == 'nameDesc' ? 'text-tidal-cyan' : 'text-tidal-gold'" />
+						</div>
+						<div class="flex-1">
+							<div class="text-left font-medium" :class="store.order == 'nameDesc' ? 'text-tidal-cyan' : 'text-white'">Ordina per nome</div>
+						</div>
+					</button>
+				</li>
+			</ul>
+
+			<div class="flex justify-center space-x-4 mt-4">
+				<button type="button" v-dark-ripple @click="listState = false" class="btn-app-dark">Chiudi</button>
+			</div>
 		</div>
 	</Panel>
 
 	<Panel :id="'settings'" :visible="settingsState" @close="settingsState = false">
-		<ul class="flex flex-col space-y-3">
-			<Installer />
+		<button v-if="!store.signedIn" v-cyan-ripple type="button" @click="login()" class="bg-tidal-dark-highlight card-row space-x-2 rounded-md py-3 outline-none">
+			<div class="autofit-col autofit-col-gutters pr-0 pl-3">
+				<div class="grid content-center w-full h-full">
+					<UserAddIcon class="icon w-6 h-6 text-tidal-gold mx-auto" />
+				</div>
+			</div>
+			<div class="autofit-col autofit-col-gutters autofit-col-expand">
+				<p class="flex text-white font-heading space-x-1">Accedi</p>
+			</div>
+		</button>
 
+		<ul class="flex flex-col space-y-3">
+			<template v-if="store.signedIn">
+				<li class="flex flex-row bg-tidal-dark-highlight rounded-md">
+					<div v-dark-ripple class="select-none cursor-pointer flex flex-1 items-center space-x-3 py-2 px-3">
+						<div class="flex flex-col w-10 h-10 justify-center items-center">
+							<img :src="store.userPicture" class="mx-auto object-cover rounded-full h-8 w-8" :alt="store.userName" />
+						</div>
+						<div class="flex-1">
+							<div class="text-left font-medium text-white">Sei autenticato come {{ store.userName }}</div>
+						</div>
+					</div>
+				</li>
+				<li class="flex flex-row bg-tidal-dark-highlight rounded-md">
+					<button type="button" v-dark-ripple @click="logoutVisible = true" class="outline-none select-none cursor-pointer flex flex-1 items-center space-x-3 py-2 px-3">
+						<div class="flex flex-col w-10 h-10 justify-center items-center">
+							<UserRemoveIcon class="mx-auto w-6 h-6 text-tidal-gold" />
+						</div>
+						<div class="flex-1">
+							<div class="text-left font-medium text-white">Esci</div>
+						</div>
+					</button>
+				</li>
+			</template>
+			<li class="flex flex-row bg-tidal-dark-highlight rounded-md">
+				<button type="button" v-dark-ripple class="outline-none select-none cursor-pointer flex flex-1 items-center space-x-3 py-2 px-3">
+					<div class="flex flex-col w-10 h-10 justify-center items-center">
+						<SunIcon class="mx-auto w-6 h-6 text-tidal-gold" />
+					</div>
+					<div class="flex-1">
+						<div class="text-left font-medium text-white">Tema chiaro</div>
+					</div>
+				</button>
+			</li>
 			<li class="flex flex-row bg-tidal-dark-highlight rounded-md">
 				<button type="button" v-dark-ripple @click="deleteAllVisible = true" class="outline-none select-none cursor-pointer flex flex-1 items-center space-x-3 py-2 px-3">
 					<div class="flex flex-col w-10 h-10 justify-center items-center">
@@ -85,7 +150,7 @@
 			</li>
 		</ul>
 		<div class="flex justify-center space-x-4 mt-4">
-			<button type="button" v-dark-ripple @click="settingsState = false" class="btn text-center px-4 py-2 rounded-md shadow-sm text-sm font-medium text-white bg-tidal-dark-300 outline-none">Chiudi</button>
+			<button type="button" v-dark-ripple @click="settingsState = false" class="text-center px-4 py-2 rounded-md shadow-sm text-sm font-medium text-white bg-tidal-dark-300 outline-none">Chiudi</button>
 		</div>
 
 		<Modal :visible="deleteAllVisible" @close="deleteAllVisible = false">
@@ -119,81 +184,7 @@
 		</Modal>
 	</Panel>
 
-	<Panel :id="'list'" :visible="listState" @close="listState = false">
-		<div class="space-y-6 mt-3">
-			<button v-if="!store.signedIn" v-cyan-ripple type="button" @click="login()" class="bg-tidal-dark-highlight card-row space-x-2 rounded-md py-3 outline-none">
-				<div class="autofit-col autofit-col-gutters pr-0 pl-3">
-					<div class="grid content-center w-full h-full">
-						<UserAddIcon class="icon w-6 h-6 text-tidal-gold mx-auto" />
-					</div>
-				</div>
-				<div class="autofit-col autofit-col-gutters autofit-col-expand">
-					<p class="flex text-white font-heading space-x-1">Accedi</p>
-				</div>
-			</button>
-
-			<template v-if="store.signedIn">
-				<ul class="flex flex-col space-y-3">
-					<li class="flex flex-row bg-tidal-dark-highlight rounded-md">
-						<div v-dark-ripple class="select-none cursor-pointer flex flex-1 items-center space-x-3 py-2 px-3">
-							<div class="flex flex-col w-10 h-10 justify-center items-center">
-								<img :src="store.userPicture" class="mx-auto object-cover rounded-full h-10 w-10" :alt="store.userName" />
-							</div>
-							<div class="flex-1">
-								<div class="text-left font-medium text-white">Sei autenticato come {{ store.userName }}</div>
-							</div>
-						</div>
-					</li>
-					<li class="flex flex-row bg-tidal-dark-highlight rounded-md">
-						<button type="button" v-dark-ripple @click="logoutVisible = true" class="outline-none select-none cursor-pointer flex flex-1 items-center space-x-3 py-2 px-3">
-							<div class="flex flex-col w-10 h-10 justify-center items-center">
-								<UserRemoveIcon class="mx-auto w-6 h-6 text-tidal-gold" />
-							</div>
-							<div class="flex-1">
-								<div class="text-left font-medium text-white">Esci</div>
-							</div>
-						</button>
-					</li>
-				</ul>
-			</template>
-
-			<div class="flex justify-center space-x-4 mt-4">
-				<button type="button" v-dark-ripple @click="listState = false" class="btn btn-app-dark">Chiudi</button>
-			</div>
-		</div>
-
-		<Modal :visible="logoutVisible" @close="logoutVisible = false">
-			<template v-slot:content>
-				<div class="sm:flex sm:items-start">
-					<div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-tidal-gold-highlight sm:mx-0 sm:h-10 sm:w-10">
-						<UserRemoveIcon class="icon h-6 w-6 text-tidal-gold" />
-					</div>
-					<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-						<h3 class="text-lg leading-6 font-medium text-white">Eseguire il logout?</h3>
-						<div class="mt-2">
-							<p class="text-sm text-gray-300">Non potrai aggiungere prodotti finché non rieffettuerai l'accesso. Vuoi procedere?</p>
-						</div>
-					</div>
-				</div>
-			</template>
-			<template v-slot:actions>
-				<button
-					type="button"
-					v-cyan-ripple
-					@click="
-						logout();
-						logoutVisible = false;
-					"
-					class="btn btn-app-cyan w-full inline-flex justify-center sm:ml-3 sm:w-auto sm:text-sm"
-				>
-					Esci
-				</button>
-				<button type="button" v-dark-ripple @click="logoutVisible = false" class="btn btn-app-dark mt-3 w-full inline-flex justify-center sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">Annulla</button>
-			</template>
-		</Modal>
-	</Panel>
-
-	<BottomBar @openPanel="mainState = true" @mainMenuOpen="listState = true" @secondaryMenuOpen="settingsState = true" />
+	<BottomBar @openPanel="mainState = true" @openList="listState = true" @openSettings="settingsState = true" />
 </template>
 
 <script setup>
@@ -201,8 +192,8 @@
 	import firebase from "@/firebase.config";
 	import moment from "moment/min/moment-with-locales";
 	import { DatePicker } from "v-calendar";
-	import { MinusIcon, PlusIcon } from "@heroicons/vue/outline";
-	import { UserIcon, UserAddIcon, UserRemoveIcon, TrashIcon } from "@heroicons/vue/solid";
+	import { MinusIcon, PlusIcon, SortAscendingIcon, SortDescendingIcon } from "@heroicons/vue/outline";
+	import { UserIcon, UserAddIcon, UserRemoveIcon, TrashIcon, SelectorIcon, SunIcon, MoonIcon } from "@heroicons/vue/solid";
 	import { store, login, logout, getProducts } from "@/store";
 
 	const db = firebase.firestore();
@@ -288,6 +279,9 @@
 	img {
 		-webkit-user-drag: none;
 		user-select: none;
+	}
+	.container {
+		@apply mx-auto max-w-sm px-3 sm:max-w-md;
 	}
 	.icon {
 		@apply align-middle;
