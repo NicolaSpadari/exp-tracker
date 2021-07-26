@@ -15,7 +15,7 @@
 				</div>
 			</div>
 
-			<swiper v-if="validProducts.length > 0" slidesPerView="auto" :resistanceRatio="0.6" :spaceBetween="15" direction="vertical" class="overflow-y-hidden">
+			<swiper v-if="validProducts.length > 0" slidesPerView="auto" :resistanceRatio="0.6" :spaceBetween="15" direction="vertical">
 				<swiper-slide v-for="product in validProducts" :key="product.id">
 					<swiper :initialSlide="1" @slideChange="dismiss($event, product)">
 						<swiper-slide />

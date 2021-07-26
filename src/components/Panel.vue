@@ -51,5 +51,8 @@
 		.pane {
 			@apply bg-tidal-dark-200;
 		}
+		.backdrop {
+			@apply backdrop-filter backdrop-blur-sm;
+		}
 	}
 </style>
