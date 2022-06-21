@@ -8,8 +8,6 @@
 Keep track of what you buy by saving it Exp Tracker
 </p>
 
-<img src="https://img.shields.io/github/license/NicolaSpadari/exp-tracker" />
-
 <br>
 
 ## Technologies used
